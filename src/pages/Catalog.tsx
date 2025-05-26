@@ -96,6 +96,10 @@ const Catalog = () => {
     }
   };
 
+  const handleInStockChange = (checked: boolean | "indeterminate") => {
+    setInStockOnly(checked === true);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -190,7 +194,7 @@ const Catalog = () => {
                 <Checkbox
                   id="inStock"
                   checked={inStockOnly}
-                  onCheckedChange={setInStockOnly}
+                  onCheckedChange={handleInStockChange}
                 />
                 <label htmlFor="inStock" className="text-sm">En stock uniquement</label>
               </div>
