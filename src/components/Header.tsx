@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Search, User, Cart } from 'lucide-react';
+import { Search, User, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,7 +49,7 @@ const Header = () => {
               <User className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon" className="relative">
-              <Cart className="h-5 w-5" />
+              <ShoppingCart className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-electric-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                 3
               </span>
