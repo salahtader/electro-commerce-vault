@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Search, User, ShoppingCart } from 'lucide-react';
+import { Search, User } from 'lucide-react';
+import CartSidebar from './CartSidebar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,12 +49,7 @@ const Header = () => {
             <Button variant="ghost" size="icon">
               <User className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-electric-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                3
-              </span>
-            </Button>
+            <CartSidebar />
 
             {/* Mobile Menu Button */}
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
@@ -64,7 +60,7 @@ const Header = () => {
                     <span className="w-5 h-0.5 bg-gray-600 mb-1"></span>
                     <span className="w-5 h-0.5 bg-gray-600"></span>
                   </div>
-                </Button>
+                </SheetTrigger>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <nav className="flex flex-col space-y-6 mt-8">

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,6 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Search, Filter, Grid, List } from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { useCart } from '@/contexts/CartContext';
 
 const Catalog = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -17,6 +17,7 @@ const Catalog = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState('all');
   const [inStockOnly, setInStockOnly] = useState(false);
+  const { addItem } = useCart();
 
   const categories = [
     { id: 'all', name: 'Toutes catégories' },
@@ -98,6 +99,16 @@ const Catalog = () => {
 
   const handleInStockChange = (checked: boolean | "indeterminate") => {
     setInStockOnly(checked === true);
+  };
+
+  const handleAddToCart = (product: any) => {
+    addItem({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      brand: product.brand
+    });
   };
 
   return (
@@ -296,6 +307,7 @@ const Catalog = () => {
                       <Button 
                         className="flex-1 bg-electric-orange hover:bg-orange-600 text-black font-semibold"
                         disabled={!product.inStock}
+                        onClick={() => handleAddToCart(product)}
                       >
                         {product.inStock ? 'Ajouter au panier' : 'En rupture'}
                       </Button>
