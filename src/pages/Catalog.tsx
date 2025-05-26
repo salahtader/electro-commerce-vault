@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -17,6 +17,7 @@ const Catalog = () => {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState('all');
   const [inStockOnly, setInStockOnly] = useState(false);
+  const [sortBy, setSortBy] = useState('featured');
   const { addItem } = useCart();
 
   const categories = [
@@ -30,7 +31,7 @@ const Catalog = () => {
 
   const brands = ['Schneider Electric', 'ABB', 'Siemens', 'Legrand', 'Hager', 'General Electric'];
 
-  const products = [
+  const allProducts = [
     {
       id: 1,
       name: "Disjoncteur Tripolaire C60N 63A",
@@ -88,6 +89,63 @@ const Catalog = () => {
       description: "Câble haute tension isolé XLPE, écran cuivre"
     }
   ];
+
+  // Filter and sort products based on current filter states
+  const filteredProducts = useMemo(() => {
+    let filtered = allProducts.filter(product => {
+      // Search filter
+      if (searchTerm && !product.name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+          !product.description.toLowerCase().includes(searchTerm.toLowerCase())) {
+        return false;
+      }
+
+      // Category filter
+      if (selectedCategory !== 'all' && product.category !== selectedCategory) {
+        return false;
+      }
+
+      // Brand filter
+      if (selectedBrands.length > 0 && !selectedBrands.includes(product.brand)) {
+        return false;
+      }
+
+      // Price range filter
+      if (priceRange !== 'all') {
+        const [min, max] = priceRange.split('-').map(p => p.replace('+', ''));
+        const minPrice = parseInt(min);
+        const maxPrice = max ? parseInt(max) : Infinity;
+        
+        if (product.price < minPrice || product.price > maxPrice) {
+          return false;
+        }
+      }
+
+      // Stock filter
+      if (inStockOnly && !product.inStock) {
+        return false;
+      }
+
+      return true;
+    });
+
+    // Sort products
+    switch (sortBy) {
+      case 'price-asc':
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case 'name':
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      default:
+        // Keep original order for 'featured'
+        break;
+    }
+
+    return filtered;
+  }, [searchTerm, selectedCategory, selectedBrands, priceRange, inStockOnly, sortBy]);
 
   const handleBrandChange = (brand: string, checked: boolean) => {
     if (checked) {
@@ -217,10 +275,10 @@ const Catalog = () => {
             {/* Toolbar */}
             <div className="flex justify-between items-center mb-6">
               <div className="text-gray-600">
-                <span className="font-medium">{products.length}</span> produits trouvés
+                <span className="font-medium">{filteredProducts.length}</span> produits trouvés
               </div>
               <div className="flex items-center space-x-4">
-                <Select defaultValue="featured">
+                <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-48">
                     <SelectValue />
                   </SelectTrigger>
@@ -254,7 +312,7 @@ const Catalog = () => {
 
             {/* Products */}
             <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
-              {products.map(product => (
+              {filteredProducts.map(product => (
                 <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
                   <div className="relative">
                     <img
@@ -320,16 +378,38 @@ const Catalog = () => {
               ))}
             </div>
 
-            {/* Pagination */}
-            <div className="flex justify-center mt-12">
-              <div className="flex space-x-2">
-                <Button variant="outline" disabled>Précédent</Button>
-                <Button variant="default" className="bg-electric-blue">1</Button>
-                <Button variant="outline">2</Button>
-                <Button variant="outline">3</Button>
-                <Button variant="outline">Suivant</Button>
+            {/* Show message when no products found */}
+            {filteredProducts.length === 0 && (
+              <div className="text-center py-12">
+                <p className="text-lg text-gray-500">Aucun produit trouvé avec les filtres sélectionnés.</p>
+                <Button 
+                  variant="outline" 
+                  className="mt-4"
+                  onClick={() => {
+                    setSearchTerm('');
+                    setSelectedCategory('all');
+                    setSelectedBrands([]);
+                    setPriceRange('all');
+                    setInStockOnly(false);
+                  }}
+                >
+                  Réinitialiser les filtres
+                </Button>
               </div>
-            </div>
+            )}
+
+            {/* Pagination */}
+            {filteredProducts.length > 0 && (
+              <div className="flex justify-center mt-12">
+                <div className="flex space-x-2">
+                  <Button variant="outline" disabled>Précédent</Button>
+                  <Button variant="default" className="bg-electric-blue">1</Button>
+                  <Button variant="outline">2</Button>
+                  <Button variant="outline">3</Button>
+                  <Button variant="outline">Suivant</Button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
