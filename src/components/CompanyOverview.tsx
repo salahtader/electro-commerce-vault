@@ -57,12 +57,14 @@ const CompanyOverview = () => {
         </div>
 
         <div className="text-center">
-          <Button 
-            size="lg" 
-            className="bg-electric-blue hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
-          >
-            En savoir plus sur notre expertise
-          </Button>
+          <a href="/about">
+            <Button 
+              size="lg" 
+              className="bg-electric-blue hover:bg-blue-700 text-white px-8 py-4 text-lg font-semibold"
+            >
+              En savoir plus sur notre expertise
+            </Button>
+          </a>
         </div>
       </div>
     </section>

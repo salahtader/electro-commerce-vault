@@ -34,19 +34,23 @@ const HeroSection = () => {
           Qualité, fiabilité et expertise depuis plus de 20 ans.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up">
-          <Button 
-            size="lg" 
-            className="bg-electric-orange hover:bg-orange-600 text-black font-semibold px-8 py-4 text-lg"
-          >
-            Voir nos produits
-          </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-black px-8 py-4 text-lg"
-          >
-            Demander un devis
-          </Button>
+          <a href="/catalog">
+            <Button 
+              size="lg" 
+              className="bg-electric-orange hover:bg-orange-600 text-black font-semibold px-8 py-4 text-lg"
+            >
+              Voir nos produits
+            </Button>
+          </a>
+          <a href="#contact">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-white text-white hover:bg-white hover:text-black px-8 py-4 text-lg"
+            >
+              Demander un devis
+            </Button>
+          </a>
         </div>
       </div>
 

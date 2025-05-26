@@ -8,11 +8,11 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navigationItems = [
-    { name: 'Accueil', href: '#' },
-    { name: 'Catalogue', href: '#catalog' },
-    { name: 'Basse Tension', href: '#bt' },
-    { name: 'Moyenne Tension', href: '#mt' },
-    { name: 'Expertise', href: '#expertise' },
+    { name: 'Accueil', href: '/' },
+    { name: 'Catalogue', href: '/catalog' },
+    { name: 'Basse Tension', href: '/catalog?category=bt' },
+    { name: 'Moyenne Tension', href: '/catalog?category=mt' },
+    { name: 'Expertise', href: '/about' },
     { name: 'Contact', href: '#contact' }
   ];
 
@@ -22,9 +22,9 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="text-2xl font-montserrat font-bold text-electric-blue">
+            <a href="/" className="text-2xl font-montserrat font-bold text-electric-blue">
               ElectroTech
-            </div>
+            </a>
           </div>
 
           {/* Desktop Navigation */}
