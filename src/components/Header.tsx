@@ -60,7 +60,7 @@ const Header = () => {
                     <span className="w-5 h-0.5 bg-gray-600 mb-1"></span>
                     <span className="w-5 h-0.5 bg-gray-600"></span>
                   </div>
-                </SheetTrigger>
+                </Button>
               </SheetTrigger>
               <SheetContent side="right" className="w-64">
                 <nav className="flex flex-col space-y-6 mt-8">
