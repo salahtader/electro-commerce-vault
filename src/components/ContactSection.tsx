@@ -1,10 +1,83 @@
 
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir tous les champs obligatoires.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([{
+          name: formData.name,
+          company: formData.company || null,
+          email: formData.email,
+          phone: formData.phone || null,
+          message: formData.message
+        }]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Message envoyé !",
+        description: "Votre demande a été envoyée avec succès. Nous vous recontacterons bientôt.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        company: '',
+        email: '',
+        phone: '',
+        message: ''
+      });
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast({
+        title: "Erreur",
+        description: "Une erreur s'est produite lors de l'envoi. Veuillez réessayer.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-electric-gray">
       <div className="container mx-auto px-4">
@@ -27,39 +100,70 @@ const ContactSection = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Nom *</label>
-                  <Input placeholder="Votre nom" />
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Nom *</label>
+                    <Input 
+                      name="name"
+                      placeholder="Votre nom" 
+                      value={formData.name}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Société</label>
+                    <Input 
+                      name="company"
+                      placeholder="Nom de votre société" 
+                      value={formData.company}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Email *</label>
+                    <Input 
+                      name="email"
+                      type="email" 
+                      placeholder="votre.email@exemple.com" 
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Téléphone</label>
+                    <Input 
+                      name="phone"
+                      placeholder="01 23 45 67 89" 
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                    />
+                  </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-2">Société</label>
-                  <Input placeholder="Nom de votre société" />
+                  <label className="block text-sm font-medium mb-2">Message *</label>
+                  <Textarea 
+                    name="message"
+                    placeholder="Décrivez votre projet ou vos besoins en matériel électrique..."
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleInputChange}
+                    required
+                  />
                 </div>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email *</label>
-                  <Input type="email" placeholder="votre.email@exemple.com" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Téléphone</label>
-                  <Input placeholder="01 23 45 67 89" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-2">Message *</label>
-                <Textarea 
-                  placeholder="Décrivez votre projet ou vos besoins en matériel électrique..."
-                  rows={4}
-                />
-              </div>
-              <Button 
-                size="lg" 
-                className="w-full bg-electric-orange hover:bg-orange-600 text-black font-semibold"
-              >
-                Envoyer ma demande
-              </Button>
+                <Button 
+                  type="submit"
+                  size="lg" 
+                  className="w-full bg-electric-orange hover:bg-orange-600 text-black font-semibold"
+                  disabled={loading}
+                >
+                  {loading ? 'Envoi en cours...' : 'Envoyer ma demande'}
+                </Button>
+              </form>
             </CardContent>
           </Card>
 

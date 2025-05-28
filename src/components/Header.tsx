@@ -2,11 +2,13 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Search, User } from 'lucide-react';
+import { Search, User, LogOut } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 import CartSidebar from './CartSidebar';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, signOut } = useAuth();
 
   const navigationItems = [
     { name: 'Accueil', href: '/' },
@@ -46,9 +48,24 @@ const Header = () => {
             <Button variant="ghost" size="icon">
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
+            
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-600 hidden md:block">
+                  Bonjour, {user.user_metadata?.name || 'Utilisateur'}
+                </span>
+                <Button variant="ghost" size="icon" onClick={signOut}>
+                  <LogOut className="h-5 w-5" />
+                </Button>
+              </div>
+            ) : (
+              <Button variant="ghost" size="icon" asChild>
+                <a href="/auth">
+                  <User className="h-5 w-5" />
+                </a>
+              </Button>
+            )}
+            
             <CartSidebar />
 
             {/* Mobile Menu Button */}
@@ -74,6 +91,34 @@ const Header = () => {
                       {item.name}
                     </a>
                   ))}
+                  
+                  {user ? (
+                    <div className="pt-4 border-t">
+                      <p className="text-sm text-gray-600 mb-2">
+                        Connecté en tant que {user.user_metadata?.name || 'Utilisateur'}
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        onClick={() => {
+                          signOut();
+                          setIsMenuOpen(false);
+                        }}
+                        className="w-full"
+                      >
+                        Se déconnecter
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="pt-4 border-t">
+                      <Button 
+                        asChild 
+                        className="w-full bg-electric-orange hover:bg-orange-600 text-black"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        <a href="/auth">Se connecter</a>
+                      </Button>
+                    </div>
+                  )}
                 </nav>
               </SheetContent>
             </Sheet>
