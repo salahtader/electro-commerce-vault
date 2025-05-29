@@ -4,9 +4,11 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Plus, Minus, Trash2 } from 'lucide-react';
 import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 
 const CartSidebar = () => {
-  const { items, updateQuantity, removeItem, totalItems, totalPrice } = useCart();
+  const { items, updateQuantity, removeItem, totalItems, totalPrice, isLoading } = useCart();
+  const { user } = useAuth();
 
   return (
     <Sheet>
@@ -27,7 +29,16 @@ const CartSidebar = () => {
         
         <div className="flex flex-col h-full">
           <div className="flex-1 overflow-y-auto py-4">
-            {items.length === 0 ? (
+            {!user ? (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                <ShoppingCart className="h-16 w-16 mb-4" />
+                <p className="text-center">Connectez-vous pour voir votre panier</p>
+              </div>
+            ) : isLoading ? (
+              <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                <p>Chargement...</p>
+              </div>
+            ) : items.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-full text-gray-500">
                 <ShoppingCart className="h-16 w-16 mb-4" />
                 <p>Votre panier est vide</p>
@@ -81,7 +92,7 @@ const CartSidebar = () => {
             )}
           </div>
           
-          {items.length > 0 && (
+          {user && items.length > 0 && (
             <div className="border-t pt-4 space-y-4">
               <div className="flex justify-between items-center text-lg font-bold">
                 <span>Total:</span>

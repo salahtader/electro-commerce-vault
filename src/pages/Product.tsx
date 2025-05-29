@@ -1,53 +1,84 @@
 
 import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Separator } from '@/components/ui/separator';
 import { Star, Download, Share2, Heart, Plus, Minus, ArrowLeft } from 'lucide-react';
+import { useProduct } from '@/hooks/useProducts';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useToast } from '@/hooks/use-toast';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const Product = () => {
+  const { id } = useParams<{ id: string }>();
+  const productId = id ? parseInt(id) : 1; // Default to product 1 for now
+  const { data: product, isLoading, error } = useProduct(productId);
+  const { addItem } = useCart();
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const product = {
-    id: 1,
-    name: "Disjoncteur Tripolaire C60N 63A",
-    brand: "Schneider Electric",
-    price: 189.90,
-    originalPrice: 219.90,
-    inStock: true,
-    stockQuantity: 25,
-    badge: "Bestseller",
-    rating: 4.8,
-    reviews: 127,
-    images: ["/placeholder.svg", "/placeholder.svg", "/placeholder.svg"],
-    shortDescription: "Disjoncteur modulaire tripolaire courbe C, calibre 63A, pouvoir de coupure 6kA selon IEC 60898-1",
-    features: [
-      "Pouvoir de coupure : 6kA",
-      "Tension nominale : 400V AC",
-      "Courant nominal : 63A",
-      "Courbe de déclenchement : C",
-      "Nombre de modules : 3",
-      "Norme : IEC 60898-1"
-    ],
-    technicalSpecs: {
-      "Tension nominale": "400V AC",
-      "Courant nominal": "63A",
-      "Pouvoir de coupure": "6kA",
-      "Courbe": "C",
-      "Fréquence": "50/60 Hz",
-      "Température de fonctionnement": "-25°C à +70°C",
-      "Degré de protection": "IP20",
-      "Classe": "Classe II",
-      "Norme": "IEC 60898-1, EN 60898-1",
-      "Certification": "CE, AFNOR"
+  const handleAddToCart = () => {
+    if (!user) {
+      toast({
+        title: "Connexion requise",
+        description: "Vous devez être connecté pour ajouter des produits au panier.",
+        variant: "destructive",
+      });
+      return;
     }
+
+    if (!product) return;
+
+    for (let i = 0; i < quantity; i++) {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+        brand: product.brand,
+      });
+    }
+
+    toast({
+      title: "Produit ajouté",
+      description: `${quantity} x ${product.name} ajouté(s) au panier.`,
+    });
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <p>Chargement du produit...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <Header />
+        <div className="container mx-auto px-4 py-8">
+          <p>Produit non trouvé.</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Mock images array since we only have one placeholder
+  const images = [product.image, product.image, product.image];
+
+  // Mock related products
   const relatedProducts = [
     {
       id: 2,
@@ -80,14 +111,14 @@ const Product = () => {
           <span>/</span>
           <a href="/catalog" className="hover:text-electric-blue">Catalogue</a>
           <span>/</span>
-          <a href="/catalog/disjoncteurs" className="hover:text-electric-blue">Disjoncteurs</a>
-          <span>/</span>
           <span className="text-gray-900">{product.name}</span>
         </nav>
 
-        <Button variant="ghost" className="mb-6">
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Retour au catalogue
+        <Button variant="ghost" className="mb-6" asChild>
+          <a href="/catalog">
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Retour au catalogue
+          </a>
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
@@ -95,13 +126,13 @@ const Product = () => {
           <div>
             <div className="mb-4">
               <img
-                src={product.images[selectedImage]}
+                src={images[selectedImage]}
                 alt={product.name}
                 className="w-full h-96 object-cover rounded-lg border"
               />
             </div>
             <div className="flex space-x-2">
-              {product.images.map((image, index) => (
+              {images.map((image, index) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
@@ -118,9 +149,11 @@ const Product = () => {
           {/* Product Info */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <Badge className="bg-electric-orange text-white">
-                {product.badge}
-              </Badge>
+              {product.badge && (
+                <Badge className="bg-electric-orange text-white">
+                  {product.badge}
+                </Badge>
+              )}
               <div className="flex items-center space-x-2">
                 <Button variant="ghost" size="icon">
                   <Heart className="h-5 w-5" />
@@ -144,39 +177,41 @@ const Product = () => {
                   <Star
                     key={i}
                     className={`h-5 w-5 ${
-                      i < Math.floor(product.rating) ? 'text-yellow-400 fill-current' : 'text-gray-300'
+                      i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
                     }`}
                   />
                 ))}
-                <span className="ml-2 text-gray-600">({product.reviews} avis)</span>
+                <span className="ml-2 text-gray-600">(127 avis)</span>
               </div>
             </div>
 
-            <p className="text-gray-700 mb-6 leading-relaxed">
-              {product.shortDescription}
-            </p>
+            {product.short_description && (
+              <p className="text-gray-700 mb-6 leading-relaxed">
+                {product.short_description}
+              </p>
+            )}
 
             <div className="flex items-center space-x-4 mb-6">
               <span className="text-3xl font-bold text-electric-blue">
                 {product.price.toFixed(2)}€
               </span>
-              {product.originalPrice && (
+              {product.original_price && (
                 <span className="text-xl text-gray-400 line-through">
-                  {product.originalPrice.toFixed(2)}€
+                  {product.original_price.toFixed(2)}€
                 </span>
               )}
-              {product.originalPrice && (
+              {product.original_price && (
                 <Badge variant="destructive">
-                  -{Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}%
+                  -{Math.round(((product.original_price - product.price) / product.original_price) * 100)}%
                 </Badge>
               )}
             </div>
 
             <div className="mb-6">
               <p className="text-sm text-gray-600 mb-2">
-                {product.inStock ? (
+                {product.in_stock ? (
                   <span className="text-green-600 font-medium">
-                    ✓ En stock ({product.stockQuantity} disponibles)
+                    ✓ En stock ({product.stock_quantity} disponibles)
                   </span>
                 ) : (
                   <span className="text-red-600 font-medium">✗ Rupture de stock</span>
@@ -209,7 +244,8 @@ const Product = () => {
               <Button
                 size="lg"
                 className="flex-1 bg-electric-orange hover:bg-orange-600 text-black font-semibold"
-                disabled={!product.inStock}
+                disabled={!product.in_stock}
+                onClick={handleAddToCart}
               >
                 Ajouter au panier
               </Button>
@@ -240,31 +276,37 @@ const Product = () => {
             <TabsContent value="description" className="p-6">
               <h3 className="text-xl font-montserrat font-bold mb-4">Description produit</h3>
               <p className="text-gray-700 mb-6 leading-relaxed">
-                {product.shortDescription}
+                {product.short_description}
               </p>
-              <h4 className="text-lg font-semibold mb-3">Caractéristiques principales :</h4>
-              <ul className="space-y-2">
-                {product.features.map((feature, index) => (
-                  <li key={index} className="flex items-center">
-                    <span className="w-2 h-2 bg-electric-blue rounded-full mr-3"></span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
+              {product.features && (
+                <>
+                  <h4 className="text-lg font-semibold mb-3">Caractéristiques principales :</h4>
+                  <ul className="space-y-2">
+                    {product.features.map((feature, index) => (
+                      <li key={index} className="flex items-center">
+                        <span className="w-2 h-2 bg-electric-blue rounded-full mr-3"></span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
             </TabsContent>
             
             <TabsContent value="specifications" className="p-6">
               <h3 className="text-xl font-montserrat font-bold mb-4">Spécifications techniques</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {Object.entries(product.technicalSpecs).map(([key, value]) => (
-                  <div key={key} className="border-b border-gray-200 pb-2">
-                    <div className="flex justify-between">
-                      <span className="font-medium text-gray-700">{key}</span>
-                      <span className="text-gray-900">{value}</span>
+              {product.technical_specs && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {Object.entries(product.technical_specs).map(([key, value]) => (
+                    <div key={key} className="border-b border-gray-200 pb-2">
+                      <div className="flex justify-between">
+                        <span className="font-medium text-gray-700">{key}</span>
+                        <span className="text-gray-900">{value}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </TabsContent>
             
             <TabsContent value="documents" className="p-6">
@@ -272,20 +314,6 @@ const Product = () => {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 border rounded-lg">
                   <span>Fiche technique produit</span>
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Télécharger PDF
-                  </Button>
-                </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <span>Manuel d'installation</span>
-                  <Button variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
-                    Télécharger PDF
-                  </Button>
-                </div>
-                <div className="flex items-center justify-between p-3 border rounded-lg">
-                  <span>Certificat de conformité CE</span>
                   <Button variant="outline" size="sm">
                     <Download className="h-4 w-4 mr-2" />
                     Télécharger PDF
@@ -332,8 +360,8 @@ const Product = () => {
                   />
                   <h4 className="font-medium mb-2">{relatedProduct.name}</h4>
                   <p className="text-electric-blue font-bold">{relatedProduct.price.toFixed(2)}€</p>
-                  <Button className="w-full mt-3 bg-electric-orange hover:bg-orange-600 text-black">
-                    Voir le produit
+                  <Button className="w-full mt-3 bg-electric-orange hover:bg-orange-600 text-black" asChild>
+                    <a href={`/product/${relatedProduct.id}`}>Voir le produit</a>
                   </Button>
                 </div>
               ))}

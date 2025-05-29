@@ -9,6 +9,41 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      cart_items: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: number
+          quantity: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: number
+          quantity?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: number
+          quantity?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "cart_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       contact_submissions: {
         Row: {
           company: string | null
@@ -39,6 +74,60 @@ export type Database = {
           name?: string
           phone?: string | null
           status?: string | null
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          badge: string | null
+          brand: string
+          category: string
+          created_at: string
+          features: string[] | null
+          id: number
+          image: string
+          in_stock: boolean | null
+          name: string
+          original_price: number | null
+          price: number
+          short_description: string | null
+          stock_quantity: number | null
+          technical_specs: Json | null
+          updated_at: string
+        }
+        Insert: {
+          badge?: string | null
+          brand: string
+          category: string
+          created_at?: string
+          features?: string[] | null
+          id?: number
+          image: string
+          in_stock?: boolean | null
+          name: string
+          original_price?: number | null
+          price: number
+          short_description?: string | null
+          stock_quantity?: number | null
+          technical_specs?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          badge?: string | null
+          brand?: string
+          category?: string
+          created_at?: string
+          features?: string[] | null
+          id?: number
+          image?: string
+          in_stock?: boolean | null
+          name?: string
+          original_price?: number | null
+          price?: number
+          short_description?: string | null
+          stock_quantity?: number | null
+          technical_specs?: Json | null
+          updated_at?: string
         }
         Relationships: []
       }

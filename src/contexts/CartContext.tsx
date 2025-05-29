@@ -1,5 +1,7 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { useCartItems, useAddToCart, useUpdateCartItem, useRemoveFromCart, useClearCart } from '@/hooks/useCart';
+import { useAuth } from '@/contexts/AuthContext';
 
 export interface CartItem {
   id: number;
@@ -18,6 +20,7 @@ interface CartContextType {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  isLoading: boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,40 +38,71 @@ interface CartProviderProps {
 }
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const { user } = useAuth();
+  const { data: dbCartItems = [], isLoading } = useCartItems();
+  const addToCartMutation = useAddToCart();
+  const updateCartMutation = useUpdateCartItem();
+  const removeFromCartMutation = useRemoveFromCart();
+  const clearCartMutation = useClearCart();
 
-  const addItem = (product: Omit<CartItem, 'quantity'>) => {
-    setItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-  };
+  // Convert database cart items to the expected format
+  const items: CartItem[] = dbCartItems.map(item => ({
+    id: item.product_id,
+    name: item.product?.name || '',
+    price: item.product?.price || 0,
+    quantity: item.quantity,
+    image: item.product?.image || '',
+    brand: item.product?.brand || '',
+  }));
 
-  const removeItem = (id: number) => {
-    setItems(prevItems => prevItems.filter(item => item.id !== id));
-  };
-
-  const updateQuantity = (id: number, quantity: number) => {
-    if (quantity <= 0) {
-      removeItem(id);
+  const addItem = async (product: Omit<CartItem, 'quantity'>) => {
+    if (!user) {
+      // For non-logged in users, we could show a login prompt
+      console.log('User must be logged in to add items to cart');
       return;
     }
-    setItems(prevItems =>
-      prevItems.map(item =>
-        item.id === id ? { ...item, quantity } : item
-      )
-    );
+
+    try {
+      await addToCartMutation.mutateAsync({ productId: product.id });
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
-  const clearCart = () => {
-    setItems([]);
+  const removeItem = async (productId: number) => {
+    if (!user) return;
+
+    const dbItem = dbCartItems.find(item => item.product_id === productId);
+    if (!dbItem) return;
+
+    try {
+      await removeFromCartMutation.mutateAsync(dbItem.id);
+    } catch (error) {
+      console.error('Error removing item from cart:', error);
+    }
+  };
+
+  const updateQuantity = async (productId: number, quantity: number) => {
+    if (!user) return;
+
+    const dbItem = dbCartItems.find(item => item.product_id === productId);
+    if (!dbItem) return;
+
+    try {
+      await updateCartMutation.mutateAsync({ itemId: dbItem.id, quantity });
+    } catch (error) {
+      console.error('Error updating cart item quantity:', error);
+    }
+  };
+
+  const clearCart = async () => {
+    if (!user) return;
+
+    try {
+      await clearCartMutation.mutateAsync();
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+    }
   };
 
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -83,7 +117,8 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         updateQuantity,
         clearCart,
         totalItems,
-        totalPrice
+        totalPrice,
+        isLoading
       }}
     >
       {children}
