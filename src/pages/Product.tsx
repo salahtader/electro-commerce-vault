@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -301,7 +300,7 @@ const Product = () => {
                     <div key={key} className="border-b border-gray-200 pb-2">
                       <div className="flex justify-between">
                         <span className="font-medium text-gray-700">{key}</span>
-                        <span className="text-gray-900">{value}</span>
+                        <span className="text-gray-900">{String(value)}</span>
                       </div>
                     </div>
                   ))}
