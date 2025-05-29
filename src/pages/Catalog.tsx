@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -11,6 +12,7 @@ import Footer from '../components/Footer';
 import { useCart } from '@/contexts/CartContext';
 
 const Catalog = () => {
+  const navigate = useNavigate();
   const [viewMode, setViewMode] = useState('grid');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -169,6 +171,10 @@ const Catalog = () => {
     });
   };
 
+  const handleProductClick = (productId: number) => {
+    navigate(`/product/${productId}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -313,7 +319,11 @@ const Catalog = () => {
             {/* Products */}
             <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
               {filteredProducts.map(product => (
-                <Card key={product.id} className="group hover:shadow-xl transition-all duration-300 overflow-hidden">
+                <Card 
+                  key={product.id} 
+                  className="group hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
+                  onClick={() => handleProductClick(product.id)}
+                >
                   <div className="relative">
                     <img
                       src={product.image}
@@ -365,11 +375,21 @@ const Catalog = () => {
                       <Button 
                         className="flex-1 bg-electric-orange hover:bg-orange-600 text-black font-semibold"
                         disabled={!product.inStock}
-                        onClick={() => handleAddToCart(product)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToCart(product);
+                        }}
                       >
                         {product.inStock ? 'Ajouter au panier' : 'En rupture'}
                       </Button>
-                      <Button variant="outline" size="icon">
+                      <Button 
+                        variant="outline" 
+                        size="icon"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleProductClick(product.id);
+                        }}
+                      >
                         <Search className="h-4 w-4" />
                       </Button>
                     </div>
