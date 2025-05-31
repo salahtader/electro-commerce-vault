@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -53,32 +52,22 @@ export const useOrders = () => {
     queryFn: async () => {
       if (!user) return [];
 
-      // Use RPC call to bypass type issues
-      const { data, error } = await supabase.rpc('get_user_orders', {
-        p_user_id: user.id
-      });
+      // Use direct query with any type to bypass TypeScript issues
+      const { data, error } = await (supabase as any)
+        .from('orders')
+        .select(`
+          *,
+          order_items(
+            *,
+            product:products(id, name, image, brand)
+          )
+        `)
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
 
       if (error) {
         console.error('Error fetching orders:', error);
-        // Fallback to direct query with any type
-        const { data: fallbackData, error: fallbackError } = await (supabase as any)
-          .from('orders')
-          .select(`
-            *,
-            order_items(
-              *,
-              product:products(id, name, image, brand)
-            )
-          `)
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false });
-
-        if (fallbackError) {
-          console.error('Fallback query also failed:', fallbackError);
-          throw fallbackError;
-        }
-
-        return fallbackData as Order[];
+        throw error;
       }
 
       return data as Order[];
