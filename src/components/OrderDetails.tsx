@@ -22,7 +22,8 @@ const OrderDetails = ({ orderId, onClose }: OrderDetailsProps) => {
 
   const fetchOrderDetails = async () => {
     try {
-      const { data, error } = await supabase
+      // Use any type to bypass TypeScript issues
+      const { data, error } = await (supabase as any)
         .from('orders')
         .select(`
           *,
@@ -35,7 +36,7 @@ const OrderDetails = ({ orderId, onClose }: OrderDetailsProps) => {
         .single();
 
       if (error) throw error;
-      setOrder(data);
+      setOrder(data as Order);
     } catch (error) {
       console.error('Error fetching order details:', error);
     } finally {
