@@ -3,12 +3,25 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Plus, Minus, Trash2 } from 'lucide-react';
-import { useCart } from '@/contexts/CartContext';
+import { useCartItems, useUpdateCartItem, useRemoveFromCart } from '@/hooks/useCart';
 import { useAuth } from '@/contexts/AuthContext';
 
 const CartSidebar = () => {
-  const { items, updateQuantity, removeItem, totalItems, totalPrice, isLoading } = useCart();
+  const { data: items = [], isLoading } = useCartItems();
+  const updateCartItem = useUpdateCartItem();
+  const removeFromCart = useRemoveFromCart();
   const { user } = useAuth();
+
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalPrice = items.reduce((sum, item) => sum + (item.product?.price || 0) * item.quantity, 0);
+
+  const updateQuantity = (itemId: string, newQuantity: number) => {
+    updateCartItem.mutate({ itemId, quantity: newQuantity });
+  };
+
+  const removeItem = (itemId: string) => {
+    removeFromCart.mutate(itemId);
+  };
 
   return (
     <Sheet>
@@ -48,14 +61,14 @@ const CartSidebar = () => {
                 {items.map(item => (
                   <div key={item.id} className="flex items-center space-x-3 p-3 border rounded-lg">
                     <img
-                      src={item.image}
-                      alt={item.name}
+                      src={item.product?.image}
+                      alt={item.product?.name}
                       className="w-16 h-16 object-cover rounded"
                     />
                     <div className="flex-1">
-                      <h4 className="font-semibold text-sm">{item.name}</h4>
-                      <p className="text-xs text-gray-500">{item.brand}</p>
-                      <p className="font-bold text-electric-blue">{item.price.toFixed(2)}€</p>
+                      <h4 className="font-semibold text-sm">{item.product?.name}</h4>
+                      <p className="text-xs text-gray-500">{item.product?.brand}</p>
+                      <p className="font-bold text-electric-blue">{item.product?.price?.toFixed(2)}€</p>
                     </div>
                     <div className="flex flex-col items-center space-y-2">
                       <div className="flex items-center space-x-1">
@@ -98,8 +111,8 @@ const CartSidebar = () => {
                 <span>Total:</span>
                 <span className="text-electric-blue">{totalPrice.toFixed(2)}€</span>
               </div>
-              <Button className="w-full bg-electric-orange hover:bg-orange-600 text-black font-semibold">
-                Passer commande
+              <Button className="w-full bg-electric-orange hover:bg-orange-600 text-black font-semibold" asChild>
+                <a href="/checkout">Passer commande</a>
               </Button>
             </div>
           )}

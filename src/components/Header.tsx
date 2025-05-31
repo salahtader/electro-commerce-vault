@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Search, User, LogOut } from 'lucide-react';
+import { Search, User, LogOut, UserCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import CartSidebar from './CartSidebar';
 
@@ -54,6 +54,11 @@ const Header = () => {
                 <span className="text-sm text-gray-600 hidden md:block">
                   Bonjour, {user.user_metadata?.name || 'Utilisateur'}
                 </span>
+                <Button variant="ghost" size="icon" asChild>
+                  <a href="/dashboard">
+                    <UserCircle className="h-5 w-5" />
+                  </a>
+                </Button>
                 <Button variant="ghost" size="icon" onClick={signOut}>
                   <LogOut className="h-5 w-5" />
                 </Button>
@@ -97,16 +102,26 @@ const Header = () => {
                       <p className="text-sm text-gray-600 mb-2">
                         Connecté en tant que {user.user_metadata?.name || 'Utilisateur'}
                       </p>
-                      <Button 
-                        variant="outline" 
-                        onClick={() => {
-                          signOut();
-                          setIsMenuOpen(false);
-                        }}
-                        className="w-full"
-                      >
-                        Se déconnecter
-                      </Button>
+                      <div className="space-y-2">
+                        <Button 
+                          asChild 
+                          variant="outline"
+                          className="w-full"
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <a href="/dashboard">Mon tableau de bord</a>
+                        </Button>
+                        <Button 
+                          variant="outline" 
+                          onClick={() => {
+                            signOut();
+                            setIsMenuOpen(false);
+                          }}
+                          className="w-full"
+                        >
+                          Se déconnecter
+                        </Button>
+                      </div>
                     </div>
                   ) : (
                     <div className="pt-4 border-t">
