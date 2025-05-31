@@ -56,8 +56,7 @@ export const useOrders = () => {
       console.log('Fetching orders for user:', user.id);
 
       try {
-        // Use direct query with any type to bypass TypeScript issues
-        const { data, error } = await (supabase as any)
+        const { data, error } = await supabase
           .from('orders')
           .select(`
             *,
@@ -115,8 +114,8 @@ export const useCreateOrder = () => {
       console.log('Calculated total amount:', total_amount);
 
       try {
-        // Create the order using any type to bypass TypeScript issues
-        const { data: order, error: orderError } = await (supabase as any)
+        // Create the order
+        const { data: order, error: orderError } = await supabase
           .from('orders')
           .insert({
             user_id: user.id,
@@ -148,7 +147,7 @@ export const useCreateOrder = () => {
 
         console.log('Creating order items:', orderItems);
 
-        const { error: itemsError } = await (supabase as any)
+        const { error: itemsError } = await supabase
           .from('order_items')
           .insert(orderItems);
 
@@ -163,7 +162,7 @@ export const useCreateOrder = () => {
         const cartItemIds = orderData.cartItems.map(item => item.id);
         console.log('Clearing cart items:', cartItemIds);
 
-        const { error: clearCartError } = await (supabase as any)
+        const { error: clearCartError } = await supabase
           .from('cart_items')
           .delete()
           .in('id', cartItemIds);
@@ -198,7 +197,7 @@ export const useUpdateOrderStatus = () => {
     mutationFn: async ({ orderId, status }: { orderId: string; status: Order['status'] }) => {
       console.log('Updating order status:', orderId, status);
 
-      const { data, error } = await (supabase as any)
+      const { data, error } = await supabase
         .from('orders')
         .update({ status, updated_at: new Date().toISOString() })
         .eq('id', orderId)
