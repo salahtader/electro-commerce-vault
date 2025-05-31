@@ -1,3 +1,4 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
@@ -52,25 +53,33 @@ export const useOrders = () => {
     queryFn: async () => {
       if (!user) return [];
 
-      // Use direct query with any type to bypass TypeScript issues
-      const { data, error } = await (supabase as any)
-        .from('orders')
-        .select(`
-          *,
-          order_items(
-            *,
-            product:products(id, name, image, brand)
-          )
-        `)
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+      console.log('Fetching orders for user:', user.id);
 
-      if (error) {
-        console.error('Error fetching orders:', error);
+      try {
+        // Use direct query with any type to bypass TypeScript issues
+        const { data, error } = await (supabase as any)
+          .from('orders')
+          .select(`
+            *,
+            order_items(
+              *,
+              product:products(id, name, image, brand)
+            )
+          `)
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Error fetching orders:', error);
+          throw error;
+        }
+
+        console.log('Orders fetched successfully:', data);
+        return data as Order[];
+      } catch (error) {
+        console.error('Failed to fetch orders:', error);
         throw error;
       }
-
-      return data as Order[];
     },
     enabled: !!user,
   });
@@ -95,56 +104,89 @@ export const useCreateOrder = () => {
     }) => {
       if (!user) throw new Error('User must be logged in');
 
+      console.log('Creating order with data:', orderData);
+
       // Calculate total amount
       const total_amount = orderData.cartItems.reduce(
         (sum, item) => sum + (item.product?.price || 0) * item.quantity,
         0
       );
 
-      // Create the order using any type to bypass TypeScript issues
-      const { data: order, error: orderError } = await (supabase as any)
-        .from('orders')
-        .insert({
-          user_id: user.id,
-          total_amount,
-          shipping_address: orderData.shipping_address,
-          billing_address: orderData.billing_address,
-          payment_method: orderData.payment_method,
-          notes: orderData.notes,
-        })
-        .select()
-        .single();
+      console.log('Calculated total amount:', total_amount);
 
-      if (orderError) throw orderError;
+      try {
+        // Create the order using any type to bypass TypeScript issues
+        const { data: order, error: orderError } = await (supabase as any)
+          .from('orders')
+          .insert({
+            user_id: user.id,
+            total_amount,
+            shipping_address: orderData.shipping_address,
+            billing_address: orderData.billing_address,
+            payment_method: orderData.payment_method,
+            notes: orderData.notes,
+            status: 'pending',
+            payment_status: 'pending'
+          })
+          .select()
+          .single();
 
-      // Create order items
-      const orderItems = orderData.cartItems.map(item => ({
-        order_id: order.id,
-        product_id: item.product_id,
-        quantity: item.quantity,
-        price: item.product?.price || 0,
-      }));
+        if (orderError) {
+          console.error('Error creating order:', orderError);
+          throw orderError;
+        }
 
-      const { error: itemsError } = await (supabase as any)
-        .from('order_items')
-        .insert(orderItems);
+        console.log('Order created successfully:', order);
 
-      if (itemsError) throw itemsError;
+        // Create order items
+        const orderItems = orderData.cartItems.map(item => ({
+          order_id: order.id,
+          product_id: item.product_id,
+          quantity: item.quantity,
+          price: item.product?.price || 0,
+        }));
 
-      // Clear the cart
-      const cartItemIds = orderData.cartItems.map(item => item.id);
-      const { error: clearCartError } = await supabase
-        .from('cart_items')
-        .delete()
-        .in('id', cartItemIds);
+        console.log('Creating order items:', orderItems);
 
-      if (clearCartError) console.warn('Failed to clear cart:', clearCartError);
+        const { error: itemsError } = await (supabase as any)
+          .from('order_items')
+          .insert(orderItems);
 
-      return order;
+        if (itemsError) {
+          console.error('Error creating order items:', itemsError);
+          throw itemsError;
+        }
+
+        console.log('Order items created successfully');
+
+        // Clear the cart
+        const cartItemIds = orderData.cartItems.map(item => item.id);
+        console.log('Clearing cart items:', cartItemIds);
+
+        const { error: clearCartError } = await (supabase as any)
+          .from('cart_items')
+          .delete()
+          .in('id', cartItemIds);
+
+        if (clearCartError) {
+          console.warn('Failed to clear cart:', clearCartError);
+        } else {
+          console.log('Cart cleared successfully');
+        }
+
+        return order;
+      } catch (error) {
+        console.error('Failed to create order:', error);
+        throw error;
+      }
     },
     onSuccess: () => {
+      console.log('Order creation successful, invalidating queries');
       queryClient.invalidateQueries({ queryKey: ['orders'] });
       queryClient.invalidateQueries({ queryKey: ['cart-items'] });
+    },
+    onError: (error) => {
+      console.error('Order creation failed:', error);
     },
   });
 };
@@ -154,6 +196,8 @@ export const useUpdateOrderStatus = () => {
 
   return useMutation({
     mutationFn: async ({ orderId, status }: { orderId: string; status: Order['status'] }) => {
+      console.log('Updating order status:', orderId, status);
+
       const { data, error } = await (supabase as any)
         .from('orders')
         .update({ status, updated_at: new Date().toISOString() })
@@ -161,7 +205,12 @@ export const useUpdateOrderStatus = () => {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error updating order status:', error);
+        throw error;
+      }
+
+      console.log('Order status updated successfully:', data);
       return data;
     },
     onSuccess: () => {
