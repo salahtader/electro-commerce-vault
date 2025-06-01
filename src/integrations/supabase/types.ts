@@ -9,6 +9,30 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      analytics: {
+        Row: {
+          created_at: string
+          event_data: Json | null
+          event_type: string
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event_data?: Json | null
+          event_type: string
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event_data?: Json | null
+          event_type?: string
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       cart_items: {
         Row: {
           created_at: string
@@ -171,12 +195,14 @@ export type Database = {
           id: number
           image: string
           in_stock: boolean | null
+          low_stock_threshold: number | null
           name: string
           original_price: number | null
           price: number
           short_description: string | null
           stock_quantity: number | null
           technical_specs: Json | null
+          total_sold: number | null
           updated_at: string
         }
         Insert: {
@@ -188,12 +214,14 @@ export type Database = {
           id?: number
           image: string
           in_stock?: boolean | null
+          low_stock_threshold?: number | null
           name: string
           original_price?: number | null
           price: number
           short_description?: string | null
           stock_quantity?: number | null
           technical_specs?: Json | null
+          total_sold?: number | null
           updated_at?: string
         }
         Update: {
@@ -205,12 +233,14 @@ export type Database = {
           id?: number
           image?: string
           in_stock?: boolean | null
+          low_stock_threshold?: number | null
           name?: string
           original_price?: number | null
           price?: number
           short_description?: string | null
           stock_quantity?: number | null
           technical_specs?: Json | null
+          total_sold?: number | null
           updated_at?: string
         }
         Relationships: []
@@ -242,15 +272,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _user_id: string
+          _role: Database["public"]["Enums"]["app_role"]
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -365,6 +422,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const

@@ -1,7 +1,7 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useTrackEvent } from './useAnalytics';
 
 export interface Order {
   id: string;
@@ -87,6 +87,7 @@ export const useOrders = () => {
 export const useCreateOrder = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const trackEvent = useTrackEvent();
 
   return useMutation({
     mutationFn: async (orderData: {
@@ -158,6 +159,17 @@ export const useCreateOrder = () => {
 
         console.log('Order items created successfully');
 
+        // Track order creation event
+        trackEvent.mutate({
+          eventType: 'order_created',
+          eventData: {
+            order_id: order.id,
+            total_amount,
+            items_count: orderData.cartItems.length
+          },
+          userId: user.id
+        });
+
         // Clear the cart
         const cartItemIds = orderData.cartItems.map(item => item.id);
         console.log('Clearing cart items:', cartItemIds);
@@ -192,6 +204,7 @@ export const useCreateOrder = () => {
 
 export const useUpdateOrderStatus = () => {
   const queryClient = useQueryClient();
+  const trackEvent = useTrackEvent();
 
   return useMutation({
     mutationFn: async ({ orderId, status }: { orderId: string; status: Order['status'] }) => {
@@ -208,6 +221,15 @@ export const useUpdateOrderStatus = () => {
         console.error('Error updating order status:', error);
         throw error;
       }
+
+      // Track status change event
+      trackEvent.mutate({
+        eventType: 'order_status_changed',
+        eventData: {
+          order_id: orderId,
+          new_status: status
+        }
+      });
 
       console.log('Order status updated successfully:', data);
       return data;
