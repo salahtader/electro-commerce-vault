@@ -24,11 +24,12 @@ const Header = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex items-center">
-            <a href="/" className="text-2xl font-montserrat font-bold text-electric-blue">
-              ElectroTech
-            </a>
-          </div>
+<div className="flex items-center">
+  <a href="/">
+    <img src="/logo.png" alt="Logo ElectroTech" className="h-10 w-auto" />
+  </a>
+</div>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
