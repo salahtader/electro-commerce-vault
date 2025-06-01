@@ -14,7 +14,7 @@ const HeroSection = () => {
           className="w-full h-full object-cover"
         >
           <source 
-            src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761" 
+            src="https://videos.pexels.com/video-files/2845487/2845487-uhd_2560_1440_30fps.mp4" 
             type="video/mp4" 
           />
           {/* Fallback for browsers that don't support video */}
