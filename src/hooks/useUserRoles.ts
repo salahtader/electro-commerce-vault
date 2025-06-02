@@ -44,19 +44,36 @@ export const useAllUsers = () => {
   return useQuery({
     queryKey: ['all-users'],
     queryFn: async () => {
-      const { data, error } = await supabase
+      // First get all profiles
+      const { data: profiles, error: profilesError } = await supabase
         .from('profiles')
-        .select(`
-          *,
-          user_roles(role)
-        `);
+        .select('*');
 
-      if (error) {
-        console.error('Error fetching users:', error);
-        throw error;
+      if (profilesError) {
+        console.error('Error fetching profiles:', profilesError);
+        throw profilesError;
       }
 
-      return data;
+      // Then get all user roles
+      const { data: userRoles, error: rolesError } = await supabase
+        .from('user_roles')
+        .select('*');
+
+      if (rolesError) {
+        console.error('Error fetching user roles:', rolesError);
+        throw rolesError;
+      }
+
+      // Combine the data
+      const usersWithRoles = profiles.map(profile => {
+        const userRole = userRoles.find(role => role.user_id === profile.id);
+        return {
+          ...profile,
+          user_roles: userRole ? [{ role: userRole.role }] : [{ role: 'user' as const }]
+        };
+      });
+
+      return usersWithRoles;
     },
   });
 };

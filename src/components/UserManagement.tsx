@@ -15,7 +15,7 @@ interface UserWithRoles {
   phone: string | null;
   user_roles: Array<{
     role: 'admin' | 'user';
-  }> | null;
+  }>;
 }
 
 const UserManagement = () => {
