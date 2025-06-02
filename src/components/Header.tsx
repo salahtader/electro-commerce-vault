@@ -5,6 +5,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Search, User, LogOut, UserCircle } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import CartSidebar from './CartSidebar';
+import AdminLink from './AdminLink';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,7 +31,6 @@ const Header = () => {
   </a>
 </div>
 
-
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navigationItems.map((item) => (
@@ -55,6 +55,7 @@ const Header = () => {
                 <span className="text-sm text-gray-600 hidden md:block">
                   Bonjour, {user.user_metadata?.name || 'Utilisateur'}
                 </span>
+                <AdminLink />
                 <Button variant="ghost" size="icon" asChild>
                   <a href="/dashboard">
                     <UserCircle className="h-5 w-5" />
@@ -104,6 +105,7 @@ const Header = () => {
                         Connecté en tant que {user.user_metadata?.name || 'Utilisateur'}
                       </p>
                       <div className="space-y-2">
+                        <AdminLink />
                         <Button 
                           asChild 
                           variant="outline"
