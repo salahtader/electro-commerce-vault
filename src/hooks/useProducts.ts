@@ -12,6 +12,8 @@ export interface Product {
   image: string;
   in_stock: boolean;
   stock_quantity: number;
+  low_stock_threshold?: number;
+  total_sold?: number;
   badge?: string;
   short_description?: string;
   features?: string[];
