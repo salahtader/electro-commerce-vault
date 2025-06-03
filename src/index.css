@@ -79,11 +79,11 @@
 
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border transition-colors;
   }
 
   body {
-    @apply bg-background text-foreground font-inter;
+    @apply bg-background text-foreground font-inter transition-colors duration-300;
     scroll-behavior: smooth;
   }
 
@@ -92,20 +92,27 @@
   }
 }
 
-/* Modern glassmorphism effects */
+/* Modern glassmorphism effects - with dark mode support */
 .glass-effect {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  @apply bg-white/10 dark:bg-black/20 backdrop-blur-lg border border-white/20 dark:border-white/10;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  @apply bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-white/20 dark:border-gray-700/30;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
+
+/* Dark mode background gradients */
+.bg-gradient-light {
+  @apply bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50;
+}
+
+.bg-gradient-dark {
+  @apply dark:bg-gradient-to-br dark:from-slate-900 dark:via-purple-900 dark:to-slate-900;
+}
+
+/* ... keep existing code (animations and utilities) the same ... */
 
 /* Custom gradient animations */
 @keyframes gradient-x {
@@ -193,7 +200,7 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  @apply bg-gray-100 dark:bg-gray-800;
   border-radius: 10px;
 }
 

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -7,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { motion } from 'framer-motion';
 import CartSidebar from './CartSidebar';
 import AdminLink from './AdminLink';
+import ThemeToggle from './ThemeToggle';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,6 +48,9 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1">
+            <div className="hidden md:flex items-center space-x-4">
+              <ThemeToggle />
+            </div>
             {navigationItems.map((item, index) => (
               <motion.a
                 key={item.name}
