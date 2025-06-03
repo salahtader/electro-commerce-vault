@@ -1,244 +1,301 @@
 
-import { Card, CardContent } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Award, Users, Clock, MapPin, Phone, Mail, Zap, Shield, Truck, HeartHandshake } from 'lucide-react';
+import { 
+  Users, 
+  Target, 
+  Award, 
+  Globe, 
+  Zap, 
+  Shield, 
+  Clock, 
+  Lightbulb,
+  CheckCircle,
+  ArrowRight
+} from 'lucide-react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const About = () => {
   const stats = [
-    { icon: Clock, label: "Années d'expérience", value: "20+" },
-    { icon: Users, label: "Clients satisfaits", value: "5000+" },
-    { icon: Truck, label: "Livraisons par mois", value: "1200+" },
-    { icon: Zap, label: "Références produits", value: "10000+" }
+    { number: "25+", label: "Années d'expérience", icon: Clock },
+    { number: "10K+", label: "Clients satisfaits", icon: Users },
+    { number: "50K+", label: "Projets réalisés", icon: CheckCircle },
+    { number: "99%", label: "Satisfaction client", icon: Award }
   ];
 
-  const expertise = [
-    {
-      icon: Zap,
-      title: "Basse Tension (BT)",
-      description: "Expertise complète en distribution BT : disjoncteurs, contacteurs, relais, armoires de distribution jusqu'à 1000V.",
-      specialties: ["Disjoncteurs modulaires", "Contacteurs et relais", "Protection différentielle", "Armoires de distribution"]
-    },
+  const values = [
     {
       icon: Shield,
-      title: "Moyenne Tension (MT)",
-      description: "Solutions MT pour l'industrie et les infrastructures : transformateurs, cellules MT, protection numérique.",
-      specialties: ["Transformateurs de puissance", "Cellules MT", "Protection numérique", "Appareillage MT"]
+      title: "Sécurité",
+      description: "Respect strict des normes et certifications pour garantir la sécurité de vos installations."
     },
     {
-      icon: HeartHandshake,
-      title: "Conseil & Expertise",
-      description: "Notre équipe d'ingénieurs vous accompagne dans le choix et la mise en œuvre de vos solutions électriques.",
-      specialties: ["Audit électrique", "Dimensionnement", "Mise en conformité", "Formation technique"]
+      icon: Lightbulb,
+      title: "Innovation",
+      description: "Solutions technologiques avancées intégrant l'IA et les dernières innovations du secteur."
     },
     {
-      icon: Truck,
-      title: "Logistique & Service",
-      description: "Service de livraison express et support technique pour répondre à vos urgences et besoins spécifiques.",
-      specialties: ["Livraison express", "Stock permanent", "Support 24h/7j", "Service après-vente"]
+      icon: Target,
+      title: "Excellence",
+      description: "Engagement qualité total avec des produits premium et un service irréprochable."
+    },
+    {
+      icon: Globe,
+      title: "Durabilité",
+      description: "Approche éco-responsable avec des solutions énergétiques durables et efficaces."
     }
   ];
 
-  const certifications = [
-    { name: "ISO 9001", description: "Système de management qualité" },
-    { name: "CE", description: "Conformité européenne" },
-    { name: "RGE Qualibat", description: "Reconnu Garant de l'Environnement" },
-    { name: "NF C 15-100", description: "Norme française installations BT" }
-  ];
-
-  const timeline = [
-    { year: "2004", event: "Création d'ElectroTech à Lyon" },
-    { year: "2008", event: "Extension vers la moyenne tension" },
-    { year: "2012", event: "Certification ISO 9001" },
-    { year: "2016", event: "Ouverture de l'agence de Marseille" },
-    { year: "2020", event: "Digitalisation complète des processus" },
-    { year: "2024", event: "Leader régional en distribution électrique" }
+  const team = [
+    {
+      name: "Pierre Électric",
+      role: "Directeur Technique",
+      image: "/placeholder.svg",
+      expertise: "Haute Tension"
+    },
+    {
+      name: "Marie Voltage",
+      role: "Responsable Commercial",
+      image: "/placeholder.svg",
+      expertise: "Solutions Industrielles"
+    },
+    {
+      name: "Jean Ampère",
+      role: "Ingénieur R&D",
+      image: "/placeholder.svg",
+      expertise: "IA & Automatisation"
+    }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <Header />
       
+      {/* Background effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <motion.div 
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.3, 0.5]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+      </div>
+
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-electric-blue to-blue-700 text-white">
+      <section className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-montserrat font-bold mb-6">
-              Notre Expertise
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 font-inter">
-              Plus de 20 ans d'expérience au service des professionnels du secteur électrique
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {stats.map((stat, index) => (
-                <div key={index} className="text-center">
-                  <stat.icon className="h-8 w-8 mx-auto mb-2 text-electric-orange" />
-                  <div className="text-3xl font-bold">{stat.value}</div>
-                  <div className="text-sm opacity-90">{stat.label}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Badge className="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 text-lg">
+              <Zap className="w-4 h-4 mr-2" />
+              Notre Histoire
+            </Badge>
+            <motion.h1 
+              className="text-5xl md:text-6xl font-montserrat font-bold text-electric-blue mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              ElectroTech
+            </motion.h1>
+            <motion.p 
+              className="text-xl text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Depuis 25 ans, nous révolutionnons le secteur électrique avec des solutions 
+              innovantes et une expertise technique de pointe. Notre mission : électriser l'avenir.
+            </motion.p>
+          </motion.div>
 
-      {/* Company Story */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-montserrat font-bold text-electric-blue mb-6">
-                Notre Histoire
-              </h2>
-              <p className="text-lg text-gray-700 mb-6 leading-relaxed">
-                Fondée en 2004 à Lyon, ElectroTech s'est imposée comme un acteur majeur 
-                de la distribution de matériel électrique en France. Notre expertise 
-                technique et notre service client irréprochable nous ont permis de 
-                fidéliser plus de 5000 clients professionnels.
-              </p>
-              <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                Spécialisés dans les solutions basse et moyenne tension, nous 
-                accompagnons les électriciens, les entreprises du BTP et les 
-                industriels dans leurs projets les plus exigeants.
-              </p>
-              <Button size="lg" className="bg-electric-orange hover:bg-orange-600 text-black">
-                Contactez nos experts
-              </Button>
-            </div>
-            <div>
-              <img
-                src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=600&h=400&fit=crop"
-                alt="Équipe ElectroTech"
-                className="rounded-lg shadow-xl"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Timeline */}
-      <section className="py-20 bg-electric-gray">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-montserrat font-bold text-electric-blue text-center mb-16">
-            Nos Étapes Clés
-          </h2>
-          <div className="max-w-4xl mx-auto">
-            <div className="relative">
-              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-electric-blue"></div>
-              {timeline.map((item, index) => (
-                <div key={index} className={`flex items-center mb-8 ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                  <div className={`w-1/2 ${index % 2 === 0 ? 'pr-8 text-right' : 'pl-8'}`}>
-                    <Card className="shadow-lg">
-                      <CardContent className="p-6">
-                        <div className="text-2xl font-bold text-electric-blue mb-2">
-                          {item.year}
-                        </div>
-                        <p className="text-gray-700">{item.event}</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-electric-orange rounded-full border-4 border-white"></div>
-                  <div className="w-1/2"></div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Expertise Areas */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-montserrat font-bold text-electric-blue mb-6">
-              Nos Domaines d'Expertise
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Une expertise technique approfondie dans tous les domaines du matériel électrique
-            </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {expertise.map((area, index) => (
-              <Card key={index} className="hover:shadow-xl transition-shadow duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-electric-blue rounded-lg flex items-center justify-center mr-4">
-                      <area.icon className="h-6 w-6 text-white" />
+          {/* Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+              >
+                <Card className="text-center p-6 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300">
+                  <CardContent className="p-0">
+                    <div className="w-12 h-12 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                      <stat.icon className="w-6 h-6 text-white" />
                     </div>
-                    <h3 className="text-2xl font-montserrat font-bold text-gray-900">
-                      {area.title}
-                    </h3>
-                  </div>
-                  <p className="text-gray-700 mb-6 leading-relaxed">
-                    {area.description}
-                  </p>
-                  <div className="space-y-2">
-                    {area.specialties.map((specialty, idx) => (
-                      <div key={idx} className="flex items-center">
-                        <span className="w-2 h-2 bg-electric-orange rounded-full mr-3"></span>
-                        <span className="text-gray-600">{specialty}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                    <div className="text-3xl font-bold text-electric-blue mb-2 font-montserrat">
+                      {stat.number}
+                    </div>
+                    <div className="text-gray-600 font-inter">{stat.label}</div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Certifications */}
-      <section className="py-20 bg-electric-gray">
+      {/* Values Section */}
+      <section className="py-20 relative z-10">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-montserrat font-bold text-electric-blue mb-6">
-              Certifications & Qualité
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6">
+              Nos Valeurs
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Nos certifications garantissent la qualité de nos produits et services
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-inter">
+              Des principes fondamentaux qui guident chacune de nos actions
             </p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {certifications.map((cert, index) => (
-              <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-                <CardContent className="p-6">
-                  <div className="w-16 h-16 bg-electric-blue rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Award className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-xl font-montserrat font-bold text-gray-900 mb-2">
-                    {cert.name}
-                  </h3>
-                  <p className="text-gray-600 text-sm">
-                    {cert.description}
-                  </p>
-                </CardContent>
-              </Card>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+              >
+                <Card className="h-full p-6 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+                  <CardContent className="p-0 text-center">
+                    <motion.div 
+                      className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300"
+                      whileHover={{ scale: 1.1, rotate: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <value.icon className="w-8 h-8 text-white" />
+                    </motion.div>
+                    <h3 className="text-xl font-montserrat font-bold text-electric-blue mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                      {value.title}
+                    </h3>
+                    <p className="text-gray-600 font-inter leading-relaxed">
+                      {value.description}
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact CTA */}
-      <section className="py-20 bg-electric-blue text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-montserrat font-bold mb-6">
-            Prêt à travailler avec nous ?
-          </h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
-            Contactez nos experts pour discuter de vos besoins en matériel électrique
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-electric-orange hover:bg-orange-600 text-black px-8">
-              <Phone className="h-5 w-5 mr-2" />
-              04 78 95 45 67
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-electric-blue px-8">
-              <Mail className="h-5 w-5 mr-2" />
-              contact@electrotech.fr
-            </Button>
+      {/* Team Section */}
+      <section className="py-20 relative z-10">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6">
+              Notre Équipe
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto font-inter">
+              Des experts passionnés au service de votre réussite
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {team.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{ y: -5 }}
+              >
+                <Card className="overflow-hidden bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+                  <div className="relative">
+                    <img 
+                      src={member.image} 
+                      alt={member.name}
+                      className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <CardContent className="p-6 text-center">
+                    <h3 className="text-xl font-montserrat font-bold text-gray-900 mb-2 group-hover:text-electric-blue transition-colors duration-300">
+                      {member.name}
+                    </h3>
+                    <p className="text-electric-blue font-semibold mb-2 font-inter">{member.role}</p>
+                    <Badge variant="outline" className="bg-white/50 border-electric-blue/30 text-electric-blue">
+                      {member.expertise}
+                    </Badge>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 relative z-10">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            className="text-center bg-white/80 backdrop-blur-xl border border-white/20 rounded-3xl p-12 shadow-2xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2 className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6">
+              Prêt à Électriser Votre Projet ?
+            </h2>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto font-inter">
+              Contactez nos experts pour une consultation personnalisée et découvrez 
+              comment nous pouvons transformer votre infrastructure électrique.
+            </p>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                Demander un Devis
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </Button>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 

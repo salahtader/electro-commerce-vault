@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Search, Filter, Grid, List } from 'lucide-react';
+import { Search, Filter, Grid, List, ShoppingCart, Eye, Star, Zap } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useCart } from '@/contexts/CartContext';
@@ -46,7 +47,8 @@ const Catalog = () => {
       badge: "Bestseller",
       voltage: "400V",
       current: "63A",
-      description: "Disjoncteur tripolaire courbe C, pouvoir de coupure 6kA"
+      description: "Disjoncteur tripolaire courbe C, pouvoir de coupure 6kA",
+      rating: 4.8
     },
     {
       id: 2,
@@ -60,7 +62,8 @@ const Catalog = () => {
       badge: "Professionnel",
       voltage: "20kV/400V",
       power: "400kVA",
-      description: "Transformateur sec de distribution, classe H"
+      description: "Transformateur sec de distribution, classe H",
+      rating: 4.9
     },
     {
       id: 3,
@@ -74,7 +77,8 @@ const Catalog = () => {
       badge: "Promo",
       dimensions: "800x600x300mm",
       protection: "IP65",
-      description: "Armoire polyester renforcé, résistante aux UV"
+      description: "Armoire polyester renforcé, résistante aux UV",
+      rating: 4.6
     },
     {
       id: 4,
@@ -88,7 +92,8 @@ const Catalog = () => {
       badge: "Nouveau",
       voltage: "20kV",
       section: "3x95mm²",
-      description: "Câble haute tension isolé XLPE, écran cuivre"
+      description: "Câble haute tension isolé XLPE, écran cuivre",
+      rating: 4.7
     }
   ];
 
@@ -176,25 +181,74 @@ const Catalog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <Header />
       
-      <div className="container mx-auto px-4 py-8">
+      {/* Background effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <motion.div 
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.5, 0.3, 0.5]
+          }}
+          transition={{ 
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+      </div>
+      
+      <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-montserrat font-bold text-electric-blue mb-4">
+        <motion.div 
+          className="mb-8"
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h1 
+            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Catalogue Produits
-          </h1>
-          <p className="text-lg text-gray-600 font-inter">
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-gray-600 font-inter"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             Découvrez notre gamme complète de matériel électrique BT/MT
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
-          <div className="lg:w-1/4">
-            <Card className="p-6">
-              <h3 className="text-xl font-montserrat font-bold mb-4 flex items-center">
+          <motion.div 
+            className="lg:w-1/4"
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Card className="p-6 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl">
+              <h3 className="text-xl font-montserrat font-bold mb-4 flex items-center text-electric-blue">
                 <Filter className="h-5 w-5 mr-2" />
                 Filtres
               </h3>
@@ -208,7 +262,7 @@ const Catalog = () => {
                     placeholder="Rechercher un produit..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
+                    className="pl-10 bg-white/80 backdrop-blur-sm border border-white/30"
                   />
                 </div>
               </div>
@@ -217,10 +271,10 @@ const Catalog = () => {
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Catégorie</label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white/80 backdrop-blur-sm border border-white/30">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
                     {categories.map(category => (
                       <SelectItem key={category.id} value={category.id}>
                         {category.name}
@@ -251,10 +305,10 @@ const Catalog = () => {
               <div className="mb-6">
                 <label className="block text-sm font-medium mb-2">Prix</label>
                 <Select value={priceRange} onValueChange={setPriceRange}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-white/80 backdrop-blur-sm border border-white/30">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
                     <SelectItem value="all">Tous les prix</SelectItem>
                     <SelectItem value="0-100">0€ - 100€</SelectItem>
                     <SelectItem value="100-500">100€ - 500€</SelectItem>
@@ -274,28 +328,33 @@ const Catalog = () => {
                 <label htmlFor="inStock" className="text-sm">En stock uniquement</label>
               </div>
             </Card>
-          </div>
+          </motion.div>
 
           {/* Products Grid */}
           <div className="lg:w-3/4">
             {/* Toolbar */}
-            <div className="flex justify-between items-center mb-6">
-              <div className="text-gray-600">
-                <span className="font-medium">{filteredProducts.length}</span> produits trouvés
+            <motion.div 
+              className="flex justify-between items-center mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <div className="text-gray-600 font-inter">
+                <span className="font-medium text-electric-blue">{filteredProducts.length}</span> produits trouvés
               </div>
               <div className="flex items-center space-x-4">
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-48">
+                  <SelectTrigger className="w-48 bg-white/80 backdrop-blur-sm border border-white/30">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent>
+                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
                     <SelectItem value="featured">Mis en avant</SelectItem>
                     <SelectItem value="price-asc">Prix croissant</SelectItem>
                     <SelectItem value="price-desc">Prix décroissant</SelectItem>
                     <SelectItem value="name">Nom A-Z</SelectItem>
                   </SelectContent>
                 </Select>
-                <div className="flex border rounded-lg">
+                <div className="flex border rounded-lg bg-white/80 backdrop-blur-sm border-white/30">
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
@@ -314,121 +373,170 @@ const Catalog = () => {
                   </Button>
                 </div>
               </div>
-            </div>
+            </motion.div>
 
             {/* Products */}
             <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
-              {filteredProducts.map(product => (
-                <Card 
-                  key={product.id} 
-                  className="group hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer"
-                  onClick={() => handleProductClick(product.id)}
+              {filteredProducts.map((product, index) => (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
                 >
-                  <div className="relative">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <Badge 
-                      className={`absolute top-3 left-3 ${
-                        product.badge === 'Bestseller' ? 'bg-electric-orange' :
-                        product.badge === 'Professionnel' ? 'bg-electric-blue' :
-                        product.badge === 'Promo' ? 'bg-red-500' :
-                        'bg-green-500'
-                      } text-white`}
-                    >
-                      {product.badge}
-                    </Badge>
-                    {!product.inStock && (
-                      <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <span className="text-white font-semibold bg-red-600 px-3 py-1 rounded">
-                          Rupture de stock
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <CardContent className="p-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <p className="text-sm text-gray-500 font-inter">{product.brand}</p>
-                      <p className="text-sm text-gray-500 font-inter">{categories.find(c => c.id === product.category)?.name}</p>
-                    </div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2 font-montserrat">
-                      {product.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-3 line-clamp-2">
-                      {product.description}
-                    </p>
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center space-x-2">
-                        <span className="text-2xl font-bold text-electric-blue">
-                          {product.price.toFixed(2)}€
-                        </span>
-                        {product.originalPrice && (
-                          <span className="text-lg text-gray-400 line-through">
-                            {product.originalPrice.toFixed(2)}€
+                  <Card 
+                    className="group hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer bg-white/80 backdrop-blur-xl border border-white/20"
+                    onClick={() => handleProductClick(product.id)}
+                  >
+                    <div className="relative">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <Badge 
+                        className={`absolute top-3 left-3 ${
+                          product.badge === 'Bestseller' ? 'bg-electric-orange' :
+                          product.badge === 'Professionnel' ? 'bg-electric-blue' :
+                          product.badge === 'Promo' ? 'bg-red-500' :
+                          'bg-green-500'
+                        } text-white shadow-lg`}
+                      >
+                        {product.badge}
+                      </Badge>
+                      {!product.inStock && (
+                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center backdrop-blur-sm">
+                          <span className="text-white font-semibold bg-red-600 px-3 py-1 rounded-full shadow-lg">
+                            Rupture de stock
                           </span>
-                        )}
+                        </div>
+                      )}
+                      <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg">
+                        <div className="flex items-center space-x-1">
+                          <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                          <span className="text-xs font-medium">{product.rating}</span>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex space-x-2">
-                      <Button 
-                        className="flex-1 bg-electric-orange hover:bg-orange-600 text-black font-semibold"
-                        disabled={!product.inStock}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleAddToCart(product);
-                        }}
-                      >
-                        {product.inStock ? 'Ajouter au panier' : 'En rupture'}
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        size="icon"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleProductClick(product.id);
-                        }}
-                      >
-                        <Search className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    <CardContent className="p-6">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-sm text-gray-500 font-inter">{product.brand}</p>
+                        <p className="text-sm text-electric-blue font-inter font-medium">
+                          {categories.find(c => c.id === product.category)?.name}
+                        </p>
+                      </div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2 font-montserrat group-hover:text-electric-blue transition-colors">
+                        {product.name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-3 line-clamp-2 font-inter">
+                        {product.description}
+                      </p>
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-2xl font-bold text-electric-blue">
+                            {product.price.toFixed(2)}€
+                          </span>
+                          {product.originalPrice && (
+                            <span className="text-lg text-gray-400 line-through">
+                              {product.originalPrice.toFixed(2)}€
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex space-x-2">
+                        <motion.div
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          className="flex-1"
+                        >
+                          <Button 
+                            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300"
+                            disabled={!product.inStock}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAddToCart(product);
+                            }}
+                          >
+                            {product.inStock ? (
+                              <>
+                                <ShoppingCart className="h-4 w-4 mr-2" />
+                                Ajouter
+                              </>
+                            ) : (
+                              'En rupture'
+                            )}
+                          </Button>
+                        </motion.div>
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <Button 
+                            variant="outline" 
+                            size="icon"
+                            className="bg-white/80 backdrop-blur-sm border border-white/30 hover:bg-white hover:shadow-lg transition-all duration-300"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleProductClick(product.id);
+                            }}
+                          >
+                            <Eye className="h-4 w-4" />
+                          </Button>
+                        </motion.div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
               ))}
             </div>
 
             {/* Show message when no products found */}
             {filteredProducts.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-lg text-gray-500">Aucun produit trouvé avec les filtres sélectionnés.</p>
-                <Button 
-                  variant="outline" 
-                  className="mt-4"
-                  onClick={() => {
-                    setSearchTerm('');
-                    setSelectedCategory('all');
-                    setSelectedBrands([]);
-                    setPriceRange('all');
-                    setInStockOnly(false);
-                  }}
-                >
-                  Réinitialiser les filtres
-                </Button>
-              </div>
+              <motion.div 
+                className="text-center py-12"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl">
+                  <Zap className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                  <p className="text-lg text-gray-500 mb-4 font-inter">
+                    Aucun produit trouvé avec les filtres sélectionnés.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    className="bg-white/80 backdrop-blur-sm border border-white/30 hover:bg-white hover:shadow-lg transition-all duration-300"
+                    onClick={() => {
+                      setSearchTerm('');
+                      setSelectedCategory('all');
+                      setSelectedBrands([]);
+                      setPriceRange('all');
+                      setInStockOnly(false);
+                    }}
+                  >
+                    Réinitialiser les filtres
+                  </Button>
+                </div>
+              </motion.div>
             )}
 
             {/* Pagination */}
             {filteredProducts.length > 0 && (
-              <div className="flex justify-center mt-12">
-                <div className="flex space-x-2">
-                  <Button variant="outline" disabled>Précédent</Button>
-                  <Button variant="default" className="bg-electric-blue">1</Button>
-                  <Button variant="outline">2</Button>
-                  <Button variant="outline">3</Button>
-                  <Button variant="outline">Suivant</Button>
+              <motion.div 
+                className="flex justify-center mt-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+              >
+                <div className="flex space-x-2 bg-white/80 backdrop-blur-xl border border-white/20 rounded-lg p-2 shadow-lg">
+                  <Button variant="outline" disabled className="bg-white/50">Précédent</Button>
+                  <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">1</Button>
+                  <Button variant="outline" className="bg-white/50">2</Button>
+                  <Button variant="outline" className="bg-white/50">3</Button>
+                  <Button variant="outline" className="bg-white/50">Suivant</Button>
                 </div>
-              </div>
+              </motion.div>
             )}
           </div>
         </div>
