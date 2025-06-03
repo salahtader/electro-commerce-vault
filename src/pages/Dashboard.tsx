@@ -1,4 +1,3 @@
-
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -20,7 +19,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import UserProfile from '../components/UserProfile';
-import OrderDetails from '../components/OrderDetails';
+import UserOrders from '../components/UserOrders';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -303,7 +302,7 @@ const Dashboard = () => {
           </motion.div>
         </div>
 
-        {/* User Profile and Order Details */}
+        {/* User Profile and User Orders */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -317,7 +316,7 @@ const Dashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.8 }}
           >
-            <OrderDetails />
+            <UserOrders />
           </motion.div>
         </div>
       </div>
