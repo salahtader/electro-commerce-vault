@@ -5,7 +5,12 @@ import { ArrowRight, Zap, Shield, Clock } from 'lucide-react';
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <motion.section 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+    >
       {/* Animated background elements */}
       <div className="absolute inset-0">
         <motion.div 
@@ -49,7 +54,9 @@ const HeroSection = () => {
       </div>
 
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%239C92AC\" fill-opacity=\"0.1\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"1\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-50"></div>
+      <div className="absolute inset-0 opacity-50">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:50px_50px]" />
+      </div>
 
       {/* Hero Content */}
       <div className="relative z-10 text-center text-white max-w-6xl mx-auto px-4">
@@ -72,11 +79,11 @@ const HeroSection = () => {
           className="text-6xl md:text-8xl font-black mb-8 leading-tight"
         >
           <span className="bg-gradient-to-r from-white via-blue-200 to-cyan-200 bg-clip-text text-transparent">
-            L'Avenir de
+            L&apos;Avenir de
           </span>
           <br />
           <span className="bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 bg-clip-text text-transparent">
-            l'Électricité
+            l&apos;Électricité
           </span>
         </motion.h1>
 
@@ -175,7 +182,7 @@ const HeroSection = () => {
         }}
         className="absolute bottom-32 left-20 w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-full opacity-70 hidden lg:block"
       />
-    </section>
+    </motion.section>
   );
 };
 
