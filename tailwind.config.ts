@@ -88,6 +88,7 @@ export default {
 				'electric-purple': '#8B5CF6',
 				'electric-pink': '#EC4899',
 				'electric-orange': '#F97316',
+				'electric-dark': 'hsl(var(--electric-dark))',
 				'neon-green': '#10B981',
 				'cyber-yellow': '#EAB308',
 				sidebar: {
