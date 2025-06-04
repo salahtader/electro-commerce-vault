@@ -15,7 +15,7 @@ const BrandPartners = () => {
   ];
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-20 bg-gradient-adaptive relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(59,130,246,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(59,130,246,0.1)_1px,transparent_1px)] bg-[size:50px_50px]" />
@@ -30,7 +30,7 @@ const BrandPartners = () => {
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-3xl md:text-4xl font-montserrat font-bold text-electric-blue mb-4"
+            className="text-3xl md:text-4xl font-montserrat font-bold text-electric-blue dark:text-blue-400 mb-4"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -39,7 +39,7 @@ const BrandPartners = () => {
             Nos Marques Partenaires
           </motion.h2>
           <motion.p 
-            className="text-lg text-gray-600 font-inter"
+            className="text-lg text-gray-600 dark:text-gray-300 font-inter"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -60,11 +60,11 @@ const BrandPartners = () => {
               whileHover={{ scale: 1.1, y: -5 }}
               className="group cursor-pointer"
             >
-              <div className="flex flex-col items-center justify-center h-32 bg-white/80 backdrop-blur-sm border border-gray-100 rounded-2xl hover:bg-white hover:shadow-xl transition-all duration-300 group-hover:border-blue-200">
+              <div className="flex flex-col items-center justify-center h-32 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm border border-gray-100 dark:border-gray-700 rounded-2xl hover:bg-white dark:hover:bg-gray-700 hover:shadow-xl transition-all duration-300 group-hover:border-blue-200 dark:group-hover:border-blue-600">
                 <div className={`w-12 h-12 bg-gradient-to-r ${brand.color} rounded-xl flex items-center justify-center mb-3 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                   <brand.icon className="w-6 h-6 text-white" />
                 </div>
-                <span className="text-xs font-semibold text-gray-600 group-hover:text-electric-blue transition-colors duration-300 text-center px-2">
+                <span className="text-xs font-semibold text-gray-600 dark:text-gray-300 group-hover:text-electric-blue dark:group-hover:text-blue-400 transition-colors duration-300 text-center px-2">
                   {brand.name}
                 </span>
               </div>

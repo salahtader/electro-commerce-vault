@@ -40,18 +40,18 @@ const FeaturedProducts = () => {
 
   if (isLoading) {
     return (
-      <section className="py-20 bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50">
+      <section className="py-20 bg-gradient-adaptive">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6">
+            <h2 className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue dark:text-blue-400 mb-6">
               Produits Populaires
             </h2>
             <motion.div
-              className="mx-auto w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full"
+              className="mx-auto w-8 h-8 border-2 border-blue-600 dark:border-blue-400 border-t-transparent rounded-full"
               animate={{ rotate: 360 }}
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
             />
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-inter mt-4">
+            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-inter mt-4">
               Chargement des produits...
             </p>
           </div>
@@ -64,11 +64,11 @@ const FeaturedProducts = () => {
   const featuredProducts = products.slice(0, 4);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-purple-50 to-blue-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-adaptive relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <motion.div 
-          className="absolute top-32 right-20 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute top-32 right-20 w-64 h-64 bg-purple-500/10 dark:bg-purple-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1, 1.3, 1],
             opacity: [0.3, 0.6, 0.3]
@@ -80,7 +80,7 @@ const FeaturedProducts = () => {
           }}
         />
         <motion.div 
-          className="absolute bottom-32 left-20 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute bottom-32 left-20 w-72 h-72 bg-blue-500/10 dark:bg-blue-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1.2, 1, 1.2],
             opacity: [0.6, 0.3, 0.6]
@@ -103,7 +103,7 @@ const FeaturedProducts = () => {
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6"
+            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue dark:text-blue-400 mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -112,7 +112,7 @@ const FeaturedProducts = () => {
             Produits Populaires
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600 max-w-2xl mx-auto font-inter"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto font-inter"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -132,7 +132,7 @@ const FeaturedProducts = () => {
               viewport={{ once: true }}
               whileHover={{ y: -10 }}
             >
-              <Card className="group h-full bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
+              <Card className="group h-full glass-card hover:shadow-2xl transition-all duration-300 overflow-hidden">
                 <div className="relative overflow-hidden">
                   <motion.img
                     src={product.image}
@@ -167,17 +167,17 @@ const FeaturedProducts = () => {
                   )}
                 </div>
                 <CardContent className="p-6">
-                  <p className="text-sm text-gray-500 mb-2 font-inter">{product.category}</p>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-3 font-montserrat group-hover:text-electric-blue transition-colors duration-300">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2 font-inter">{product.category}</p>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-3 font-montserrat group-hover:text-electric-blue dark:group-hover:text-blue-400 transition-colors duration-300">
                     {product.name}
                   </h3>
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center space-x-2">
-                      <span className="text-2xl font-bold text-electric-blue">
+                      <span className="text-2xl font-bold text-electric-blue dark:text-blue-400">
                         {product.price.toFixed(2)}€
                       </span>
                       {product.original_price && (
-                        <span className="text-lg text-gray-400 line-through">
+                        <span className="text-lg text-gray-400 dark:text-gray-500 line-through">
                           {product.original_price.toFixed(2)}€
                         </span>
                       )}
@@ -188,7 +188,7 @@ const FeaturedProducts = () => {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Button 
-                      className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+                      className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 dark:from-orange-400 dark:to-red-400 dark:hover:from-orange-500 dark:hover:to-red-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                       disabled={!product.in_stock}
                       onClick={() => handleAddToCart(product)}
                     >
@@ -215,7 +215,7 @@ const FeaturedProducts = () => {
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-2 border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-white px-8 py-4 text-lg font-semibold rounded-full backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
+              className="border-2 border-electric-blue dark:border-blue-400 text-electric-blue dark:text-blue-400 hover:bg-electric-blue dark:hover:bg-blue-400 hover:text-white px-8 py-4 text-lg font-semibold rounded-full backdrop-blur-sm shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
               <a href="/catalog">Voir tout le catalogue</a>

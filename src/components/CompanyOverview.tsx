@@ -29,11 +29,11 @@ const CompanyOverview = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+    <section className="py-20 bg-gradient-adaptive relative overflow-hidden">
       {/* Background decorative elements */}
       <div className="absolute inset-0">
         <motion.div 
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3]
@@ -45,7 +45,7 @@ const CompanyOverview = () => {
           }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1.2, 1, 1.2],
             opacity: [0.5, 0.3, 0.5]
@@ -68,7 +68,7 @@ const CompanyOverview = () => {
           viewport={{ once: true }}
         >
           <motion.h2 
-            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-6"
+            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue dark:text-blue-400 mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -77,7 +77,7 @@ const CompanyOverview = () => {
             Votre Partenaire Électrique de Confiance
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-600 max-w-3xl mx-auto font-inter leading-relaxed"
+            className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto font-inter leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -99,19 +99,19 @@ const CompanyOverview = () => {
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
             >
-              <Card className="h-full bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl hover:shadow-2xl transition-all duration-300 group">
+              <Card className="h-full glass-card hover:shadow-2xl transition-all duration-300 group">
                 <CardContent className="p-8 text-center h-full flex flex-col">
                   <motion.div 
-                    className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300"
+                    className="w-16 h-16 mx-auto mb-6 bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-500 dark:to-purple-500 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300"
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ duration: 0.2 }}
                   >
                     <feature.icon className="text-white w-8 h-8" />
                   </motion.div>
-                  <h3 className="text-xl font-montserrat font-bold text-electric-blue mb-4 group-hover:text-purple-600 transition-colors duration-300">
+                  <h3 className="text-xl font-montserrat font-bold text-electric-blue dark:text-blue-400 mb-4 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors duration-300">
                     {feature.title}
                   </h3>
-                  <p className="text-gray-600 font-inter leading-relaxed flex-grow">
+                  <p className="text-gray-600 dark:text-gray-300 font-inter leading-relaxed flex-grow">
                     {feature.description}
                   </p>
                 </CardContent>
@@ -133,7 +133,7 @@ const CompanyOverview = () => {
           >
             <Button 
               size="lg" 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 dark:from-blue-500 dark:to-purple-500 dark:hover:from-blue-600 dark:hover:to-purple-600 text-white px-8 py-4 text-lg font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
               asChild
             >
               <a href="/about">En savoir plus sur notre expertise</a>
