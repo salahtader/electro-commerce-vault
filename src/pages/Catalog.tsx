@@ -181,13 +181,13 @@ const Catalog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-adaptive dark:bg-gradient-dark transition-all duration-300">
       <Header />
       
-      {/* Background effects */}
+      {/* Background effects - updated for dark mode */}
       <div className="fixed inset-0 pointer-events-none">
         <motion.div 
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-400/5 rounded-full blur-3xl"
           animate={{ 
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3]
@@ -199,7 +199,7 @@ const Catalog = () => {
           }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/5 rounded-full blur-3xl"
           animate={{ 
             scale: [1.2, 1, 1.2],
             opacity: [0.5, 0.3, 0.5]
@@ -214,7 +214,7 @@ const Catalog = () => {
       </div>
       
       <div className="container mx-auto px-4 py-8 relative z-10">
-        {/* Page Header */}
+        {/* Page Header - updated colors */}
         <motion.div 
           className="mb-8"
           initial={{ opacity: 0, y: 30 }}
@@ -222,7 +222,7 @@ const Catalog = () => {
           transition={{ duration: 0.8 }}
         >
           <motion.h1 
-            className="text-4xl md:text-5xl font-montserrat font-bold text-electric-blue mb-4"
+            className="text-4xl md:text-5xl font-montserrat font-bold text-gray-900 dark:text-gray-100 mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -230,7 +230,7 @@ const Catalog = () => {
             Catalogue Produits
           </motion.h1>
           <motion.p 
-            className="text-xl text-gray-600 font-inter"
+            className="text-xl text-gray-600 dark:text-gray-400 font-inter"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -240,43 +240,43 @@ const Catalog = () => {
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
+          {/* Filters Sidebar - updated for dark mode */}
           <motion.div 
             className="lg:w-1/4"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <Card className="p-6 bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl">
-              <h3 className="text-xl font-montserrat font-bold mb-4 flex items-center text-electric-blue">
+            <Card className="p-6 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 shadow-xl">
+              <h3 className="text-xl font-montserrat font-bold mb-4 flex items-center text-blue-600 dark:text-blue-400">
                 <Filter className="h-5 w-5 mr-2" />
                 Filtres
               </h3>
               
-              {/* Search */}
+              {/* Search - updated styles */}
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Recherche</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Recherche</label>
                 <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                  <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400 dark:text-gray-500" />
                   <Input
                     placeholder="Rechercher un produit..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 bg-white/80 backdrop-blur-sm border border-white/30"
+                    className="pl-10 bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400"
                   />
                 </div>
               </div>
 
-              {/* Category */}
+              {/* Category - updated styles */}
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Catégorie</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Catégorie</label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="bg-white/80 backdrop-blur-sm border border-white/30">
+                  <SelectTrigger className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
+                  <SelectContent className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700">
                     {categories.map(category => (
-                      <SelectItem key={category.id} value={category.id}>
+                      <SelectItem key={category.id} value={category.id} className="text-gray-900 dark:text-gray-100 focus:bg-gray-100 dark:focus:bg-gray-800">
                         {category.name}
                       </SelectItem>
                     ))}
@@ -284,9 +284,9 @@ const Catalog = () => {
                 </Select>
               </div>
 
-              {/* Brands */}
+              {/* Brands - updated styles */}
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Marques</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Marques</label>
                 <div className="space-y-2">
                   {brands.map(brand => (
                     <div key={brand} className="flex items-center space-x-2">
@@ -294,72 +294,74 @@ const Catalog = () => {
                         id={brand}
                         checked={selectedBrands.includes(brand)}
                         onCheckedChange={(checked) => handleBrandChange(brand, checked as boolean)}
+                        className="border-gray-300 dark:border-gray-600"
                       />
-                      <label htmlFor={brand} className="text-sm">{brand}</label>
+                      <label htmlFor={brand} className="text-sm text-gray-700 dark:text-gray-300">{brand}</label>
                     </div>
                   ))}
                 </div>
               </div>
 
-              {/* Price Range */}
+              {/* Price Range - updated styles */}
               <div className="mb-6">
-                <label className="block text-sm font-medium mb-2">Prix</label>
+                <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Prix</label>
                 <Select value={priceRange} onValueChange={setPriceRange}>
-                  <SelectTrigger className="bg-white/80 backdrop-blur-sm border border-white/30">
+                  <SelectTrigger className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
-                    <SelectItem value="all">Tous les prix</SelectItem>
-                    <SelectItem value="0-100">0€ - 100€</SelectItem>
-                    <SelectItem value="100-500">100€ - 500€</SelectItem>
-                    <SelectItem value="500-1000">500€ - 1000€</SelectItem>
-                    <SelectItem value="1000+">1000€+</SelectItem>
+                  <SelectContent className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700">
+                    <SelectItem value="all" className="text-gray-900 dark:text-gray-100">Tous les prix</SelectItem>
+                    <SelectItem value="0-100" className="text-gray-900 dark:text-gray-100">0€ - 100€</SelectItem>
+                    <SelectItem value="100-500" className="text-gray-900 dark:text-gray-100">100€ - 500€</SelectItem>
+                    <SelectItem value="500-1000" className="text-gray-900 dark:text-gray-100">500€ - 1000€</SelectItem>
+                    <SelectItem value="1000+" className="text-gray-900 dark:text-gray-100">1000€+</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Stock */}
+              {/* Stock - updated styles */}
               <div className="flex items-center space-x-2">
                 <Checkbox
                   id="inStock"
                   checked={inStockOnly}
                   onCheckedChange={handleInStockChange}
+                  className="border-gray-300 dark:border-gray-600"
                 />
-                <label htmlFor="inStock" className="text-sm">En stock uniquement</label>
+                <label htmlFor="inStock" className="text-sm text-gray-700 dark:text-gray-300">En stock uniquement</label>
               </div>
             </Card>
           </motion.div>
 
-          {/* Products Grid */}
+          {/* Products Grid - updated styles throughout */}
           <div className="lg:w-3/4">
-            {/* Toolbar */}
+            {/* Toolbar - updated colors */}
             <motion.div 
               className="flex justify-between items-center mb-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <div className="text-gray-600 font-inter">
-                <span className="font-medium text-electric-blue">{filteredProducts.length}</span> produits trouvés
+              <div className="text-gray-600 dark:text-gray-400 font-inter">
+                <span className="font-medium text-blue-600 dark:text-blue-400">{filteredProducts.length}</span> produits trouvés
               </div>
               <div className="flex items-center space-x-4">
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-48 bg-white/80 backdrop-blur-sm border border-white/30">
+                  <SelectTrigger className="w-48 bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 text-gray-900 dark:text-gray-100">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white/95 backdrop-blur-xl border border-white/30">
-                    <SelectItem value="featured">Mis en avant</SelectItem>
-                    <SelectItem value="price-asc">Prix croissant</SelectItem>
-                    <SelectItem value="price-desc">Prix décroissant</SelectItem>
-                    <SelectItem value="name">Nom A-Z</SelectItem>
+                  <SelectContent className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border border-gray-200 dark:border-gray-700">
+                    <SelectItem value="featured" className="text-gray-900 dark:text-gray-100">Mis en avant</SelectItem>
+                    <SelectItem value="price-asc" className="text-gray-900 dark:text-gray-100">Prix croissant</SelectItem>
+                    <SelectItem value="price-desc" className="text-gray-900 dark:text-gray-100">Prix décroissant</SelectItem>
+                    <SelectItem value="name" className="text-gray-900 dark:text-gray-100">Nom A-Z</SelectItem>
                   </SelectContent>
                 </Select>
-                <div className="flex border rounded-lg bg-white/80 backdrop-blur-sm border-white/30">
+                <div className="flex border rounded-lg bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border-gray-200 dark:border-gray-600">
                   <Button
                     variant={viewMode === 'grid' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('grid')}
-                    className="rounded-r-none"
+                    className="rounded-r-none text-gray-700 dark:text-gray-300"
                   >
                     <Grid className="h-4 w-4" />
                   </Button>
@@ -367,7 +369,7 @@ const Catalog = () => {
                     variant={viewMode === 'list' ? 'default' : 'ghost'}
                     size="sm"
                     onClick={() => setViewMode('list')}
-                    className="rounded-l-none"
+                    className="rounded-l-none text-gray-700 dark:text-gray-300"
                   >
                     <List className="h-4 w-4" />
                   </Button>
@@ -375,7 +377,7 @@ const Catalog = () => {
               </div>
             </motion.div>
 
-            {/* Products */}
+            {/* Products - updated card styles */}
             <div className={viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6' : 'space-y-4'}>
               {filteredProducts.map((product, index) => (
                 <motion.div
@@ -386,7 +388,7 @@ const Catalog = () => {
                   whileHover={{ y: -5 }}
                 >
                   <Card 
-                    className="group hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer bg-white/80 backdrop-blur-xl border border-white/20"
+                    className="group hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-pointer bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/30"
                     onClick={() => handleProductClick(product.id)}
                   >
                     <div className="relative">
@@ -421,24 +423,24 @@ const Catalog = () => {
                     </div>
                     <CardContent className="p-6">
                       <div className="flex items-center justify-between mb-2">
-                        <p className="text-sm text-gray-500 font-inter">{product.brand}</p>
-                        <p className="text-sm text-electric-blue font-inter font-medium">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-inter">{product.brand}</p>
+                        <p className="text-sm text-blue-600 dark:text-blue-400 font-inter font-medium">
                           {categories.find(c => c.id === product.category)?.name}
                         </p>
                       </div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2 font-montserrat group-hover:text-electric-blue transition-colors">
+                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2 font-montserrat group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {product.name}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-3 line-clamp-2 font-inter">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 line-clamp-2 font-inter">
                         {product.description}
                       </p>
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center space-x-2">
-                          <span className="text-2xl font-bold text-electric-blue">
+                          <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">
                             {product.price.toFixed(2)}€
                           </span>
                           {product.originalPrice && (
-                            <span className="text-lg text-gray-400 line-through">
+                            <span className="text-lg text-gray-400 dark:text-gray-500 line-through">
                               {product.originalPrice.toFixed(2)}€
                             </span>
                           )}
@@ -475,7 +477,7 @@ const Catalog = () => {
                           <Button 
                             variant="outline" 
                             size="icon"
-                            className="bg-white/80 backdrop-blur-sm border border-white/30 hover:bg-white hover:shadow-lg transition-all duration-300"
+                            className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 hover:bg-white hover:shadow-lg transition-all duration-300"
                             onClick={(e) => {
                               e.stopPropagation();
                               handleProductClick(product.id);
@@ -491,7 +493,7 @@ const Catalog = () => {
               ))}
             </div>
 
-            {/* Show message when no products found */}
+            {/* No products message - updated */}
             {filteredProducts.length === 0 && (
               <motion.div 
                 className="text-center py-12"
@@ -499,14 +501,14 @@ const Catalog = () => {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.6 }}
               >
-                <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl">
-                  <Zap className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <p className="text-lg text-gray-500 mb-4 font-inter">
+                <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 rounded-2xl p-8 shadow-xl">
+                  <Zap className="h-16 w-16 text-gray-400 dark:text-gray-500 mx-auto mb-4" />
+                  <p className="text-lg text-gray-500 dark:text-gray-400 mb-4 font-inter">
                     Aucun produit trouvé avec les filtres sélectionnés.
                   </p>
                   <Button 
                     variant="outline" 
-                    className="bg-white/80 backdrop-blur-sm border border-white/30 hover:bg-white hover:shadow-lg transition-all duration-300"
+                    className="bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 hover:shadow-lg transition-all duration-300 text-gray-900 dark:text-gray-100"
                     onClick={() => {
                       setSearchTerm('');
                       setSelectedCategory('all');
@@ -521,7 +523,7 @@ const Catalog = () => {
               </motion.div>
             )}
 
-            {/* Pagination */}
+            {/* Pagination - updated */}
             {filteredProducts.length > 0 && (
               <motion.div 
                 className="flex justify-center mt-12"
@@ -529,12 +531,12 @@ const Catalog = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.8 }}
               >
-                <div className="flex space-x-2 bg-white/80 backdrop-blur-xl border border-white/20 rounded-lg p-2 shadow-lg">
-                  <Button variant="outline" disabled className="bg-white/50">Précédent</Button>
+                <div className="flex space-x-2 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/30 rounded-lg p-2 shadow-lg">
+                  <Button variant="outline" disabled className="bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300">Précédent</Button>
                   <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">1</Button>
-                  <Button variant="outline" className="bg-white/50">2</Button>
-                  <Button variant="outline" className="bg-white/50">3</Button>
-                  <Button variant="outline" className="bg-white/50">Suivant</Button>
+                  <Button variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300">2</Button>
+                  <Button variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300">3</Button>
+                  <Button variant="outline" className="bg-white/50 dark:bg-gray-800/50 text-gray-700 dark:text-gray-300">Suivant</Button>
                 </div>
               </motion.div>
             )}

@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
@@ -8,34 +7,24 @@
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
-
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
-
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-
     --primary: 222.2 47.4% 11.2%;
     --primary-foreground: 210 40% 98%;
-
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
-
     --radius: 0.5rem;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -92,9 +81,9 @@
   }
 }
 
-/* Modern glassmorphism effects - with dark mode support */
+/* Enhanced glassmorphism effects - with improved dark mode support */
 .glass-effect {
-  @apply bg-white/10 dark:bg-black/20 backdrop-blur-lg border border-white/20 dark:border-white/10;
+  @apply bg-white/10 dark:bg-gray-900/20 backdrop-blur-lg border border-white/20 dark:border-gray-700/30;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
@@ -103,13 +92,18 @@
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 }
 
-/* Dark mode background gradients */
+/* Enhanced background gradients for both themes */
 .bg-gradient-light {
-  @apply bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50;
+  @apply bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50;
 }
 
 .bg-gradient-dark {
-  @apply dark:bg-gradient-to-br dark:from-slate-900 dark:via-purple-900 dark:to-slate-900;
+  @apply bg-gradient-to-br from-gray-900 via-slate-900 to-indigo-900;
+}
+
+/* Combined gradient that works for both themes */
+.bg-gradient-adaptive {
+  @apply bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-slate-900 dark:to-indigo-900;
 }
 
 /* ... keep existing code (animations and utilities) the same ... */
