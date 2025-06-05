@@ -13,7 +13,7 @@ const ProductImages = ({ images, productName, selectedImage, onImageSelect }: Pr
         <img
           src={images[selectedImage]}
           alt={productName}
-          className="w-full h-96 object-cover rounded-lg border"
+          className="w-full h-96 object-cover rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
         />
       </div>
       <div className="flex space-x-2">
@@ -21,11 +21,13 @@ const ProductImages = ({ images, productName, selectedImage, onImageSelect }: Pr
           <button
             key={index}
             onClick={() => onImageSelect(index)}
-            className={`w-20 h-20 border-2 rounded-lg overflow-hidden ${
-              selectedImage === index ? 'border-electric-blue' : 'border-gray-200'
+            className={`w-20 h-20 border-2 rounded-lg overflow-hidden transition-colors ${
+              selectedImage === index 
+                ? 'border-electric-blue dark:border-blue-400' 
+                : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
             }`}
           >
-            <img src={image} alt="" className="w-full h-full object-cover" />
+            <img src={image} alt="" className="w-full h-full object-cover bg-white dark:bg-gray-800" />
           </button>
         ))}
       </div>

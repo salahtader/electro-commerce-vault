@@ -55,7 +55,7 @@ const Product = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-adaptive">
         <Header />
         <div className="container mx-auto px-4 py-8">
           <motion.div 
@@ -63,9 +63,9 @@ const Product = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-electric-blue mx-auto mb-4"></div>
-              <p className="text-lg font-inter">Chargement du produit...</p>
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 rounded-2xl p-8 shadow-xl">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-electric-blue dark:border-blue-400 mx-auto mb-4"></div>
+              <p className="text-lg font-inter text-gray-900 dark:text-gray-100">Chargement du produit...</p>
             </div>
           </motion.div>
         </div>
@@ -76,7 +76,7 @@ const Product = () => {
 
   if (error || !product) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+      <div className="min-h-screen bg-gradient-adaptive">
         <Header />
         <div className="container mx-auto px-4 py-8">
           <motion.div 
@@ -84,8 +84,8 @@ const Product = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
           >
-            <div className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl">
-              <p className="text-lg font-inter text-red-600">Produit non trouvé.</p>
+            <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 rounded-2xl p-8 shadow-xl">
+              <p className="text-lg font-inter text-red-600 dark:text-red-400">Produit non trouvé.</p>
             </div>
           </motion.div>
         </div>
@@ -118,13 +118,13 @@ const Product = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
+    <div className="min-h-screen bg-gradient-adaptive">
       <Header />
       
       {/* Background effects */}
       <div className="fixed inset-0 pointer-events-none">
         <motion.div 
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 dark:bg-blue-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1, 1.2, 1],
             opacity: [0.3, 0.5, 0.3]
@@ -136,7 +136,7 @@ const Product = () => {
           }}
         />
         <motion.div 
-          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute bottom-20 right-10 w-80 h-80 bg-purple-500/10 dark:bg-purple-400/10 rounded-full blur-3xl"
           animate={{ 
             scale: [1.2, 1, 1.2],
             opacity: [0.5, 0.3, 0.5]
@@ -153,16 +153,16 @@ const Product = () => {
       <div className="container mx-auto px-4 py-8 relative z-10">
         {/* Breadcrumb */}
         <motion.nav 
-          className="flex items-center space-x-2 text-sm text-gray-600 mb-8"
+          className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400 mb-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <a href="/" className="hover:text-electric-blue transition-colors font-inter">Accueil</a>
+          <a href="/" className="hover:text-electric-blue dark:hover:text-blue-400 transition-colors font-inter">Accueil</a>
           <span>/</span>
-          <a href="/catalog" className="hover:text-electric-blue transition-colors font-inter">Catalogue</a>
+          <a href="/catalog" className="hover:text-electric-blue dark:hover:text-blue-400 transition-colors font-inter">Catalogue</a>
           <span>/</span>
-          <span className="text-gray-900 font-medium">{product.name}</span>
+          <span className="text-gray-900 dark:text-gray-100 font-medium">{product.name}</span>
         </motion.nav>
 
         <motion.div
@@ -170,7 +170,7 @@ const Product = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Button variant="ghost" className="mb-6 hover:bg-white/50 backdrop-blur-sm" asChild>
+          <Button variant="ghost" className="mb-6 hover:bg-white/50 dark:hover:bg-gray-800/50 backdrop-blur-sm text-gray-700 dark:text-gray-300" asChild>
             <a href="/catalog">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Retour au catalogue
@@ -220,13 +220,13 @@ const Product = () => {
           ].map((item, index) => (
             <motion.div
               key={index}
-              className="bg-white/80 backdrop-blur-xl border border-white/20 rounded-xl p-6 text-center shadow-lg"
+              className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/20 rounded-xl p-6 text-center shadow-lg"
               whileHover={{ y: -5 }}
               transition={{ duration: 0.2 }}
             >
-              <item.icon className="h-8 w-8 text-electric-blue mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2 font-montserrat">{item.title}</h3>
-              <p className="text-sm text-gray-600 font-inter">{item.description}</p>
+              <item.icon className="h-8 w-8 text-electric-blue dark:text-blue-400 mx-auto mb-3" />
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-2 font-montserrat">{item.title}</h3>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-inter">{item.description}</p>
             </motion.div>
           ))}
         </motion.div>
