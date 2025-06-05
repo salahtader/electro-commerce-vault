@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -25,7 +26,7 @@ const Header = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 w-full z-50 bg-white/10 dark:bg-gray-900/10 backdrop-blur-xl border-b border-white/20 dark:border-gray-700/30 shadow-xl"
+      className="fixed top-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-xl border-b border-gray-200/50 dark:border-gray-700/50 shadow-xl"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
@@ -63,7 +64,7 @@ const Header = () => {
                 ) : (
                   <a
                     href={item.href}
-                    className="relative px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 group backdrop-blur-sm"
+                    className="relative px-4 py-2 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 group backdrop-blur-sm"
                   >
                     {item.name}
                     <span className="absolute inset-x-2 bottom-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
@@ -76,36 +77,35 @@ const Header = () => {
           {/* Right Side Icons */}
           <div className="flex items-center space-x-3">
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-sm">
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                 <Search className="h-5 w-5" />
               </Button>
             </motion.div>
             
-            {/* Theme Toggle - moved to the right */}
             <ThemeToggle />
             
             {user ? (
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-600 dark:text-gray-400 hidden md:block font-medium">
+                <span className="text-sm text-gray-700 dark:text-gray-300 hidden md:block font-medium">
                   Bonjour, {user.user_metadata?.name || 'Utilisateur'}
                 </span>
                 <AdminLink />
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                     <a href="/dashboard">
                       <UserCircle className="h-5 w-5" />
                     </a>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" onClick={signOut} className="rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 text-gray-700 dark:text-gray-300 backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" onClick={signOut} className="rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 text-gray-900 dark:text-white backdrop-blur-sm">
                     <LogOut className="h-5 w-5" />
                   </Button>
                 </motion.div>
               </div>
             ) : (
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-sm">
+                <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                   <a href="/auth">
                     <User className="h-5 w-5" />
                   </a>
@@ -119,7 +119,7 @@ const Header = () => {
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                     <Menu className="h-6 w-6" />
                   </Button>
                 </motion.div>
@@ -144,7 +144,7 @@ const Header = () => {
                       ) : (
                         <a
                           href={item.href}
-                          className="text-lg font-medium text-gray-900 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
+                          className="text-lg font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {item.name}
