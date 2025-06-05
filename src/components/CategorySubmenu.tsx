@@ -35,7 +35,7 @@ const CategorySubmenu = ({
       <div className="flex items-center">
         <a
           href={href}
-          className="flex-1 relative px-4 py-2 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
+          className="flex-1 relative px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
           onClick={onItemClick}
         >
           {categoryName}
@@ -45,7 +45,7 @@ const CategorySubmenu = ({
         {hasSubCategories && (
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="p-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white transition-colors"
           >
             {isOpen ? (
               <ChevronDown className="h-4 w-4" />
@@ -64,7 +64,7 @@ const CategorySubmenu = ({
               <a
                 key={subCategory.id}
                 href={`/catalog?category=${subCategory.slug}`}
-                className="block px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-md transition-all duration-200"
+                className="block px-4 py-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-100 dark:hover:bg-gray-800/50 rounded-md transition-all duration-200"
                 onClick={onItemClick}
               >
                 {subCategory.name}
@@ -90,7 +90,7 @@ const CategorySubmenu = ({
                   <a
                     key={subCategory.id}
                     href={`/catalog?category=${subCategory.slug}`}
-                    className="block px-4 py-2 text-gray-800 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
+                    className="block px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
                     onClick={onItemClick}
                   >
                     {subCategory.name}

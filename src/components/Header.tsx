@@ -64,7 +64,7 @@ const Header = () => {
                 ) : (
                   <a
                     href={item.href}
-                    className="relative px-4 py-2 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 group backdrop-blur-sm"
+                    className="relative px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 group backdrop-blur-sm"
                   >
                     {item.name}
                     <span className="absolute inset-x-2 bottom-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
@@ -77,7 +77,7 @@ const Header = () => {
           {/* Right Side Icons */}
           <div className="flex items-center space-x-3">
             <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-              <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
+              <Button variant="ghost" size="icon" className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                 <Search className="h-5 w-5" />
               </Button>
             </motion.div>
@@ -86,26 +86,26 @@ const Header = () => {
             
             {user ? (
               <div className="flex items-center space-x-3">
-                <span className="text-sm text-gray-700 dark:text-gray-300 hidden md:block font-medium">
+                <span className="text-sm text-gray-600 dark:text-gray-300 hidden md:block font-medium">
                   Bonjour, {user.user_metadata?.name || 'Utilisateur'}
                 </span>
                 <AdminLink />
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                     <a href="/dashboard">
                       <UserCircle className="h-5 w-5" />
                     </a>
                   </Button>
                 </motion.div>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" onClick={signOut} className="rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 text-gray-900 dark:text-white backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" onClick={signOut} className="rounded-full hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 text-gray-700 dark:text-gray-200 backdrop-blur-sm">
                     <LogOut className="h-5 w-5" />
                   </Button>
                 </motion.div>
               </div>
             ) : (
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
+                <Button variant="ghost" size="icon" asChild className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                   <a href="/auth">
                     <User className="h-5 w-5" />
                   </a>
@@ -119,7 +119,7 @@ const Header = () => {
             <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
               <SheetTrigger asChild>
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-                  <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
+                  <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800/50 text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 backdrop-blur-sm">
                     <Menu className="h-6 w-6" />
                   </Button>
                 </motion.div>
@@ -144,7 +144,7 @@ const Header = () => {
                       ) : (
                         <a
                           href={item.href}
-                          className="text-lg font-medium text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
+                          className="text-lg font-medium text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800/50 backdrop-blur-sm"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           {item.name}
@@ -155,7 +155,7 @@ const Header = () => {
                   
                   {user ? (
                     <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 font-medium">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 font-medium">
                         Connecté en tant que {user.user_metadata?.name || 'Utilisateur'}
                       </p>
                       <div className="space-y-3">
@@ -163,7 +163,7 @@ const Header = () => {
                         <Button 
                           asChild 
                           variant="outline"
-                          className="w-full rounded-lg bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 backdrop-blur-sm"
+                          className="w-full rounded-lg bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700 backdrop-blur-sm"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <a href="/dashboard">Mon tableau de bord</a>
