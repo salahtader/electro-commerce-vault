@@ -6,5 +6,10 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install --production --legacy-peer-deps --no-package-lock"
+  "installCommand": "npm ci --legacy-peer-deps || npm install --legacy-peer-deps --no-package-lock",
+  "functions": {
+    "app/api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }

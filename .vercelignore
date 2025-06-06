@@ -12,3 +12,6 @@ coverage
 .cache
 dist
 build
+package-lock.json
+*.lock
+.nyc_output
